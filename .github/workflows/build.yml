@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           export FEDORA_IMAGE_NAME=silverblue
-          if [[ "${{ env.FEDORA_VERSION }}" -ge "40" ]] && \
+          if [[ "${{ env.FEDORA_VERSION }}" -ge "40" ]]; then
               echo "SOURCE_ORG=fedora" >> $GITHUB_ENV
               echo "SOURCE_IMAGE=fedora-${FEDORA_IMAGE_NAME}" >> $GITHUB_ENV
           else
