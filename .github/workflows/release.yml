@@ -28,6 +28,17 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          gh release create \
+            39-${{ steps.date.outputs.date }} \
+            --target main \
+            --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
+            --notes 39-${{ steps.date.outputs.date }} \
+            || true
+
       - name: Upload ISO
         env:
           GITHUB_TOKEN: ${{ github.token }}
