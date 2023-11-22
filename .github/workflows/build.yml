@@ -26,10 +26,9 @@ jobs:
           - onyx
           - base
           - lxqt
-          - mate
           - vauxite
-        major_version: [37, 38, 39]
-        build_target: [nokmods, kmods]
+        major_version: [38, 39]
+        build_target: [nokmods]
         include:
           - major_version: 37
             is_latest_version: false
