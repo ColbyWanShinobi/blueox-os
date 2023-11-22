@@ -1,4 +1,4 @@
-name: build-ublue
+name: build-blueox-os
 on:
   push:
     branches:
