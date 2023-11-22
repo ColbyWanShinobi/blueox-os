@@ -124,7 +124,6 @@
                 "engrampa",
                 "eom",
                 "fedora-release-matecompiz",
-                "firefox",
                 "firewall-config",
                 "gnome-epub-thumbnailer",
                 "gnome-themes-extra",
@@ -284,7 +283,9 @@
         },
         "exclude": {
             "all": [
-                "default-fonts-cjk-sans"
+                "default-fonts-cjk-sans",
+                "firefox",
+                "firefox-langpacks"
             ]
         }
     }
