@@ -25,12 +25,15 @@ jobs:
           sudo dnf install 'dnf-command(config-manager)' -y
           sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
           sudo dnf install gh -y
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Upload ISO
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           gh release upload \
-            latest \
+            39-${{ steps.date.outputs.date }} \
             ./${{ steps.isogenerator.outputs.iso-path }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --clobber
@@ -40,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           gh release upload \
-            latest \
+            39-${{ steps.date.outputs.date }} \
             ./${{ steps.isogenerator.outputs.sha256sum-path }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --clobber
