@@ -33,8 +33,7 @@ jobs:
               echo "SOURCE_IMAGE=${FEDORA_IMAGE_NAME}" >> $GITHUB_ENV
               echo "SOURCE_ORG=fedora-ostree-desktops" >> $GITHUB_ENV
           fi
-          export IMAGE_FLAVOR=main
-          echo "IMAGE_NAME=${FEDORA_IMAGE_NAME}-${IMAGE_FLAVOR}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=blueox-os" >> $GITHUB_ENV
 
       - name: Generate tags
         id: generate-tags

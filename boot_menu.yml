@@ -1,15 +1,6 @@
 ublue_variants:
-  - label: blueox-os/main
+  - label: blueox-os
     ks: /kickstart/ublue-os.ks
     flavors:
-      - label: blueox-os-main
-        info: GNOME
-  - label: blueox-os/nvidia
-    ks: /kickstart/ublue-os-nvidia.ks
-    subvariants:
-      - label: latest driver
-      - label: 470xx driver
-        suffix: -470
-    flavors:
-      - label: blueox-os-nvidia
+      - label: blueox-os
         info: GNOME
