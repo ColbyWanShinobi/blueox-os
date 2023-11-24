@@ -51,8 +51,8 @@ wget https://copr.fedorainfracloud.org/coprs/kylegospo/corsairmi/repo/fedora-39/
   -O /etc/yum.repos.d/_copr_kylegospo-corsairmi.repo
 
 #grub-btrfs
-wget https://copr.fedorainfracloud.org/coprs/kylegospo/grub-btrfs/repo/fedora-39/kylegospo-grub-btrfs-fedora-39.repo \
-  -O /etc/yum.repos.d/_copr_kylegospo-grub-btrfs.repo
+#wget https://copr.fedorainfracloud.org/coprs/kylegospo/grub-btrfs/repo/fedora-39/kylegospo-grub-btrfs-fedora-39.repo \
+#  -O /etc/yum.repos.d/_copr_kylegospo-grub-btrfs.repo
 
 #bazzite multilib
 wget https://copr.fedorainfracloud.org/coprs/kylegospo/bazzite-multilib/repo/fedora-39/kylegospo-bazzite-multilib-fedora-39.repo \
@@ -67,8 +67,8 @@ wget https://copr.fedorainfracloud.org/coprs/kylegospo/obs-vkcapture/repo/fedora
   -O /etc/yum.repos.d/_copr_kylegospo-obs-vkcapture.repo
 
 #Oversteer
-wget https://copr.fedorainfracloud.org/coprs/kylegospo/oversteer/repo/fedora-39/kylegospo-oversteer-fedora-39.repo \
-  -O /etc/yum.repos.d/_copr_kylegospo-oversteer.repo
+#wget https://copr.fedorainfracloud.org/coprs/kylegospo/oversteer/repo/fedora-39/kylegospo-oversteer-fedora-39.repo \
+#  -O /etc/yum.repos.d/_copr_kylegospo-oversteer.repo
 
 # run common packages script
 ${script_dir}/packages.sh
