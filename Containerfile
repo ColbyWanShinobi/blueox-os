@@ -10,7 +10,7 @@ ARG BASE_VERSION="${BASE_VERSION:-39}"
 FROM ${BASE_IMAGE}:${BASE_VERSION} AS os-build
 
 #Copy the setup folder onto the container
-COPY os-config/* /tmp/os-config/
+COPY os-config/ /tmp/os-config/
 
 #Run the container setup
 RUN /tmp/os-config/install.sh && \

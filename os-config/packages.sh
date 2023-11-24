@@ -17,7 +17,7 @@ echo ${EXCLUDED_PACKAGES[@]}
 
 echo -e "\nEnsure exclusion list only contains packages already present on image..."
 if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
-    EXCLUDED_PACKAGES=($(rpm -qa --queryformat='%{NAME} ' ${EXCLUDED_PACKAGES[@]}))
+  EXCLUDED_PACKAGES=($(rpm -qa --queryformat='%{NAME} ' ${EXCLUDED_PACKAGES[@]}))
 fi
 
 echo -e "\nExcluded Packages: ${#EXCLUDED_PACKAGES[@]}"
@@ -37,11 +37,11 @@ echo "(This can happen if an included package pulls in a dependency)"
 EXCLUDED_PACKAGES=($(jq -r '.exclude[]' ${script_dir}/packages.json | sort | uniq))
 
 if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
-    EXCLUDED_PACKAGES=($(rpm -qa --queryformat='%{NAME} ' ${EXCLUDED_PACKAGES[@]}))
+  EXCLUDED_PACKAGES=($(rpm -qa --queryformat='%{NAME} ' ${EXCLUDED_PACKAGES[@]}))
 fi
 echo -e "\nExcluded Packages: ${#EXCLUDED_PACKAGES[@]}"
 
 echo "Remove any excluded packages which are still present on image"
 if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
-    rpm-ostree override remove ${EXCLUDED_PACKAGES[@]}
+  rpm-ostree override remove ${EXCLUDED_PACKAGES[@]}
 fi

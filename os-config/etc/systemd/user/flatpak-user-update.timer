@@ -1,0 +1,9 @@
+[Unit]
+Description=Update User Flatpaks Daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

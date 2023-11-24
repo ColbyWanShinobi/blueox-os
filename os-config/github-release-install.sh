@@ -11,7 +11,6 @@
 # example: wezterm builds RPMs for different distros so we must be more specific.
 #   ARCH_FILTER of "fedora37.x86_64" gets the x86_64 RPM build for fedora37
 
-
 ORG_PROJ=${1}
 ARCH_FILTER=${2}
 
@@ -35,6 +34,7 @@ fi
 set -ouex pipefail
 
 API="https://api.github.com/repos/${ORG_PROJ}/releases/latest"
+echo "Retreiving RPM ${ORG_PROJ} from ${API}"
 RPM_URLS=$(curl --retry 3 --retry-delay 3 --retry-all-errors -sL ${API} \
   | jq \
     -r \
@@ -42,7 +42,7 @@ RPM_URLS=$(curl --retry 3 --retry-delay 3 --retry-all-errors -sL ${API} \
     '.assets | sort_by(.created_at) | reverse | .[] | select(.name|test($arch_filter)) | select (.name|test("rpm$")) | .browser_download_url')
 for URL in ${RPM_URLS}; do
   # WARNING: in case of multiple matches, this only installs the first matched release
-  echo "execute: rpm-ostree install \"${URL}\""
+  echo "Execute: rpm-ostree install \"${URL}\""
   rpm-ostree install "${URL}"
   break
 done

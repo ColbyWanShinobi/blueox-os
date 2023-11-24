@@ -2,13 +2,30 @@
 
 set -ouex pipefail
 
+script_link=$(readlink -f "${0}")
+script_dir=$(dirname "${script_link}")
+
+cp -Rv ${script_dir}/etc/* /etc
+
+#OSTree Timer
 systemctl enable rpm-ostreed-automatic.timer
-#systemctl enable flatpak-system-update.timer
 
-#Not sure what this does, but it keeps failing so...
-#systemctl --global enable flatpak-user-update.timer
+# Enable Flatpak Daily Update
+systemctl enable flatpak-system-update.timer
+systemctl --global enable flatpak-user-update.timer
 
-#systemctl enable --now com.system76.Scheduler.service
+# Enable System76 scheduler
+systemctl enable com.system76.Scheduler.service
+
+# Fingerprint Reader on Thinkpads
+#systemctl enable open-fprintd-resume.service 
+#systemctl enable open-fprintd-suspend.service 
+#systemctl enable open-fprintd.service 
+#systemctl enable python3-validity.service
+#systemctl start python3-validity.service
+#systemctl start open-fprintd.service
+#authselect enable-feature with-fingerprint
+#authselect apply-changes
 
 #AMDCTL
 #grubby --update-kernel=ALL --args="msr.allow_writes=on"
@@ -17,5 +34,4 @@ systemctl enable rpm-ostreed-automatic.timer
 #systemctl enable --now grub-btrfs.path
 
 #cp /usr/share/ublue-os/update-services/etc/rpm-ostreed.conf /etc/rpm-ostreed.conf
-
 #ln -s "/usr/share/fonts/google-noto-sans-cjk-fonts" "/usr/share/fonts/noto-cjk"
