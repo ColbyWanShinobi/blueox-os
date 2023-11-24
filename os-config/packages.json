@@ -81,6 +81,7 @@
     "firefox-langpacks",
     "firefox",
     "google-noto-sans-cjk-vf-fonts",
+    "just",
     "libavcodec-free",
     "libavdevice-free",
     "libavfilter-free",
@@ -88,6 +89,7 @@
     "libavutil-free",
     "libpostproc-free",
     "libswresample-free",
-    "libswscale-free"
+    "libswscale-free",
+    "oversteer"
   ]
 }

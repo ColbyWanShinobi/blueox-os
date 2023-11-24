@@ -13,8 +13,8 @@ FROM ${BASE_IMAGE}:${BASE_VERSION} AS os-build
 COPY os-config/ /tmp/os-config/
 
 #Run the container setup
-RUN /tmp/os-config/install.sh && \
-  /tmp/os-config/post-install.sh && \
+RUN /tmp/os-config/install.sh
+RUN /tmp/os-config/post-install.sh && \
   rm -rf /tmp/* /var/* && \
   ostree container commit && \
   mkdir -p /var/tmp && \

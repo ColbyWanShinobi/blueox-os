@@ -6,7 +6,7 @@ script_link=$(readlink -f "${0}")
 script_dir=$(dirname "${script_link}")
 
 cp -Rv ${script_dir}/etc/* /etc
-cp -Rv ${script_dir}/usr/* /usr
+cp -Rv ${script_dir}/var/* /var
 
 #OSTree Timer
 systemctl enable rpm-ostreed-automatic.timer
