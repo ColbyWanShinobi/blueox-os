@@ -1,6 +1,6 @@
 on:
   workflow_dispatch:
-name: release
+name: release-blueox-os
 jobs:
   build-iso:
     name: Generate and Release ISOs
@@ -20,7 +20,7 @@ jobs:
           installer-repo: releases
           installer-major-version: 39
           boot-menu-path: boot_menu.yml
-      - name: install github CLI
+      - name: Install GitHub CLI in Runner
         run: |
           sudo dnf install 'dnf-command(config-manager)' -y
           sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
