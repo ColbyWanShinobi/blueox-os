@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Script to tweak USB storage device filesystem sync
+
+use_tweaks=1
+max_bytes=16777216
+max_ratio=50
+strict_limit=1
+
+# read user config
+source /var/etc/udev-usb-sync.conf
+
+if [[ "$use_tweaks" = 0 ]]; then
+        exit 0
+fi
+
+if [[ -z "$1" ]]; then
+        exit 1
+fi
+
+echo "$max_bytes" > "/sys/block/$1/bdi/max_bytes"
+echo "$max_ratio" > "/sys/block/$1/bdi/max_ratio"
+echo "$strict_limit" > "/sys/block/$1/bdi/strict_limit"

@@ -1,0 +1,10 @@
+# https://github.com/ValveSoftware/Proton/issues/6839
+
+# Leaguer Microelectronics (LME) R-VPC Stick WarBRD (Constellation ALPHA-R [SKU VPC-0009-R]  on a WarBRD base [SKU VPC-106])
+KERNEL=="hidraw*", ATTRS{idVendor}=="3344", ATTRS{idProduct}=="40cc", MODE="0660", TAG+="uaccess"
+
+# Leaguer Microelectronics (LME) L-VPC Stick WarBRD (Constellation ALPHA-L [SKU VPC-0009-L]  on a WarBRD base [SKU VPC-106])
+KERNEL=="hidraw*", ATTRS{idVendor}=="3344", ATTRS{idProduct}=="80cc", MODE="0660", TAG+="uaccess"
+
+# Leaguer Microelectronics (LME) VPC Throttle MT-50CM3 [SKU VPC-201-003]
+KERNEL=="hidraw*", ATTRS{idVendor}=="3344", ATTRS{idProduct}=="0197", MODE="0660", TAG+="uaccess"
