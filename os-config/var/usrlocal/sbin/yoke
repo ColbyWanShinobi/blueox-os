@@ -4,7 +4,7 @@
 set -oe pipefail
 
 TYPE="signed"
-IMAGE="ghcr.io/gameshaman/blueox-os:latest"
+IMAGE="ghcr.io/colbywanshinobi/blueox-os:latest"
 
 if [[ -n ${1} ]]; then
   TYPE=$(echo "${1}" | tr '[:upper:]' '[:lower:]')
@@ -24,7 +24,7 @@ if [[ ${TYPE} == 'signed' ]]; then
     echo "Perform update to SIGNED image: ${IMAGE} ? [y/n]"
     read user_input
     if [ "$user_input" == "y" ]; then
-        sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/gameshaman/blueox-os:latest
+        sudo rpm-ostree rebase ostree-image-signed:docker://${IMAGE}
         echo "You must reboot for this change to take effect..."
     else
         echo "Operation canceled."
@@ -34,7 +34,7 @@ elif [[ ${TYPE} == 'unsigned' ]]; then
     echo "Perform update to UNSIGNED image: ${IMAGE} ? [y/n]"
     read user_input
     if [ "$user_input" == "y" ]; then
-        sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/gameshaman/blueox-os:latest
+        sudo rpm-ostree rebase ostree-unverified-registry:${IMAGE}
         echo "You must reboot for this change to take effect..."
     else
         echo "Operation canceled."
