@@ -7,9 +7,10 @@ script_dir=$(dirname "${script_link}")
 
 RELEASE="$(rpm -E %fedora)"
 
-wget -P ${script_dir}/rpms \
+wget --trust-server-names -P ${script_dir}/rpms \
   https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${RELEASE}.noarch.rpm \
-  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${RELEASE}.noarch.rpm
+  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${RELEASE}.noarch.rpm \
+  "https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64"
 
 rpm-ostree install \
   ${script_dir}/rpms/*.rpm \

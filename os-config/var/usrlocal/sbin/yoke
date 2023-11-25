@@ -4,7 +4,7 @@
 set -oe pipefail
 
 TYPE="signed"
-IMAGE="ghcr.io/colbywanshinobi/blueox-os:latest"
+IMAGE="ghcr.io/colbywanshinobi/blueox-os"
 
 if [[ -n ${1} ]]; then
   TYPE=$(echo "${1}" | tr '[:upper:]' '[:lower:]')
