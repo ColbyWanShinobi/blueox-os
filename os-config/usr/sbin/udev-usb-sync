@@ -8,7 +8,7 @@ max_ratio=50
 strict_limit=1
 
 # read user config
-source /var/etc/udev-usb-sync.conf
+source /etc/udev-usb-sync.conf
 
 if [[ "$use_tweaks" = 0 ]]; then
         exit 0
