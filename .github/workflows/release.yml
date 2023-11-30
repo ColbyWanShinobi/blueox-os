@@ -1,6 +1,6 @@
 on:
   workflow_dispatch:
-name: release-blueox-os
+name: release-blueox-os-skelli
 jobs:
   build-iso:
     name: Generate and Release ISOs

@@ -1,6 +1,6 @@
 ublue_variants:
-  - label: blueox-os
+  - label: blueox-os-skelli
     ks: /kickstart/ublue-os.ks
     flavors:
-      - label: blueox-os
+      - label: blueox-os-skelli
         info: GNOME

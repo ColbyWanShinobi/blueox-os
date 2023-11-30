@@ -5,18 +5,18 @@ set -ouex pipefail
 script_link=$(readlink -f "${0}")
 script_dir=$(dirname "${script_link}")
 
-cp -Rv ${script_dir}/etc/* /etc
-cp -Rv ${script_dir}/usr/* /usr
+#cp -Rv ${script_dir}/etc/* /etc
+#cp -Rv ${script_dir}/usr/* /usr
 
 #OSTree Timer
-systemctl enable rpm-ostreed-automatic.timer
+#systemctl enable rpm-ostreed-automatic.timer
 
 # Enable Flatpak Daily Update
-systemctl enable flatpak-system-update.timer
-systemctl --global enable flatpak-user-update.timer
+#systemctl enable flatpak-system-update.timer
+#systemctl --global enable flatpak-user-update.timer
 
 # Enable System76 scheduler
-systemctl enable com.system76.Scheduler.service
+#systemctl enable com.system76.Scheduler.service
 
 # Fingerprint Reader on Thinkpads
 #systemctl enable open-fprintd-resume.service 

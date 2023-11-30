@@ -3,7 +3,7 @@
 # quay.io/fedora-ostree-desktops/silverblue:39
 # docker.io/library/ubuntu:22.04
 
-ARG IMAGE_NAME="${IMAGE_NAME:-blueox-os}"
+ARG IMAGE_NAME="${IMAGE_NAME:-blueox-os-skelli}"
 ARG BASE_IMAGE="${BASE_IMAGE:-quay.io/fedora-ostree-desktops/silverblue}"
 ARG BASE_VERSION="${BASE_VERSION:-39}"
 
