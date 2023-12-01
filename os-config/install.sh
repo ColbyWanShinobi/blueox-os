@@ -8,9 +8,10 @@ script_dir=$(dirname "${script_link}")
 RELEASE="$(rpm -E %fedora)"
 
 wget --trust-server-names -P ${script_dir}/rpms \
-  https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${RELEASE}.noarch.rpm \
-  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${RELEASE}.noarch.rpm \
-  "https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64"
+  "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${RELEASE}.noarch.rpm" \
+  "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${RELEASE}.noarch.rpm" \
+  "https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64" \
+  "https://github.com/ilya-zlobintsev/LACT/releases/download/v0.5.0/lact-0.5.0-0.x86_64.fedora-39.rpm"
 
 rpm-ostree install \
   ${script_dir}/rpms/*.rpm \

@@ -18,6 +18,9 @@ systemctl --global enable flatpak-user-update.timer
 # Enable System76 scheduler
 systemctl enable com.system76.Scheduler.service
 
+# LACT
+systemctl enable lactd
+
 # Fingerprint Reader on Thinkpads
 #systemctl enable open-fprintd-resume.service 
 #systemctl enable open-fprintd-suspend.service 
