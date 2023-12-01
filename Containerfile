@@ -15,7 +15,7 @@ COPY os-config/ /tmp/os-config/
 #Run the container setup
 RUN /tmp/os-config/install.sh && \
   /tmp/os-config/post-install.sh && \
-  rm -rf /tmp/* /var/* && \
+  rm -rfv /tmp/* /var/* && \
   ostree container commit && \
   mkdir -p /var/tmp && \
   chmod -R 1777 /var/tmp
