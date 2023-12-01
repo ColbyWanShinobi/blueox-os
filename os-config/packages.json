@@ -21,7 +21,6 @@
     "gnome-screenshot",
     "gnome-shell-extension-system76-scheduler",
     "gnome-shell-extension-user-theme",
-    "gnome-shell-theme-flat-remix",
     "gnome-shell-theme-yaru",
     "gnome-tweaks",
     "grub2-tools-extra",
@@ -77,6 +76,7 @@
     "winesync-dkms",
     "winesync",
     "wireguard-tools",
+    "zenity",
     "zstd"
   ],
   "exclude": [
