@@ -13,13 +13,21 @@ FROM ${BASE_IMAGE}:${BASE_VERSION} AS os-build
 COPY os-config/ /tmp/os-config/
 
 #Run the container setup
-RUN /tmp/os-config/install.sh && \
-  /tmp/os-config/post-install.sh && \
-  rm -rfv /tmp/* /var/* && \
+RUN /tmp/os-config/pre-install.sh
+RUN /tmp/os-config/install-rpmfusion.sh
+RUN /tmp/os-config/install-system76-scheduler.sh
+RUN /tmp/os-config/install-AMDCTL.sh
+RUN /tmp/os-config/install-lact.sh
+RUN /tmp/os-config/install-distrobox.sh
+RUN /tmp/os-config/install-ghcli.sh
+RUN /tmp/os-config/install-vscode.sh
+RUN /tmp/os-config/install-apple-fonts.sh
+RUN /tmp/os-config/install-packages.sh
+RUN /tmp/os-config/post-install.sh
+
+RUN rm -rfv /tmp/* /var/* && \
   ostree container commit && \
   mkdir -p /var/tmp && \
   chmod -R 1777 /var/tmp
 
-#Third-Party Repositories
-#https://copr.fedorainfracloud.org/coprs/ublue-os/gnome-software/repo/fedora-39/ublue-os-gnome-software-fedora-39.repo
-#https://copr.fedorainfracloud.org/coprs/kylegospo/minecraft-server-hibernation/repo/fedora-39/kylegospo-minecraft-server-hibernation-fedora-39.repo
+#At some point, change this to a multistage build?

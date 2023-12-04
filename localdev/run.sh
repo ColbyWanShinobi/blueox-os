@@ -8,5 +8,6 @@ script_dir=$(dirname "${script_link}")
 IMAGE_NAME=blueox-os
 
 docker run -it \
+  -v ${script_dir}/../os-config:/tmp/os-config \
   ${IMAGE_NAME} \
   bash

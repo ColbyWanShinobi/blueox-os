@@ -5,7 +5,7 @@ set -oue pipefail
 
 script_link=$(readlink -f "${0}")
 script_dir=$(dirname "${script_link}")
-INSTALL_DIR=${script_dir}/AppleFonts
+INSTALL_DIR=${script_dir}/install/AppleFonts
 
 mkdir -p ${INSTALL_DIR}
 echo "Installing Apple San Francisco font family..."

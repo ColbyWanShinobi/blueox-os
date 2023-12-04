@@ -15,16 +15,14 @@ systemctl enable rpm-ostreed-automatic.timer
 systemctl enable flatpak-system-update.timer
 systemctl --global enable flatpak-user-update.timer
 
-# Enable System76 scheduler
-systemctl enable com.system76.Scheduler.service
+sudo powertop --auto-tune
 
-# LACT
-systemctl enable lactd
+
 
 # Fingerprint Reader on Thinkpads
-#systemctl enable open-fprintd-resume.service 
-#systemctl enable open-fprintd-suspend.service 
-#systemctl enable open-fprintd.service 
+#systemctl enable open-fprintd-resume.service
+#systemctl enable open-fprintd-suspend.service
+#systemctl enable open-fprintd.service
 #systemctl enable python3-validity.service
 #systemctl start python3-validity.service
 #systemctl start open-fprintd.service
