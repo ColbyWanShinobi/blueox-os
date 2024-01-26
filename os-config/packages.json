@@ -31,6 +31,7 @@
     "nvtop",
     "openssh-server",
     "openssl",
+    "pavucontrol",
     "pipewire-codec-aptx",
     "podman-compose",
     "powertop",
