@@ -1,6 +1,5 @@
 {
   "include": [
-    "adw-gtk3-theme",
     "alsa-firmware",
     "awscli2",
     "bluez",
@@ -9,10 +8,6 @@
     "ffmpeg-libs",
     "ffmpeg",
     "ffmpegthumbnailer",
-    "folder-color-switcher",
-    "gnome-screenshot",
-    "gnome-shell-theme-yaru",
-    "gnome-tweaks",
     "hdparm",
     "heif-pixbuf-loader",
     "htop",
@@ -23,23 +18,17 @@
     "libheif-tools",
     "lshw",
     "mangohud",
-    "nautilus-extensions",
-    "nautilus-gsconnect",
     "net-tools",
     "nethogs",
     "nvme-cli",
     "nvtop",
     "openssh-server",
     "openssl",
-    "pavucontrol",
-    "pipewire-codec-aptx",
     "podman-compose",
     "powertop",
     "smartmontools",
-    "solaar-udev",
     "sshpass",
     "symlinks",
-    "syncthing",
     "tcpdump",
     "tmux",
     "traceroute",
@@ -50,17 +39,7 @@
     "zstd"
   ],
   "exclude": [
-    "default-fonts-cjk-sans",
     "firefox-langpacks",
-    "firefox",
-    "google-noto-sans-cjk-vf-fonts",
-    "libavcodec-free",
-    "libavdevice-free",
-    "libavfilter-free",
-    "libavformat-free",
-    "libavutil-free",
-    "libpostproc-free",
-    "libswresample-free",
-    "libswscale-free"
+    "firefox"
   ]
 }

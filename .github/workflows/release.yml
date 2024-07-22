@@ -1,12 +1,19 @@
 on:
   workflow_dispatch:
+    inputs:
+      fedora-version:
+        description: 'Fedora Version'
+        required: true
+        default: '40'
+  repository_dispatch:
+    types: [trigger-release]
 name: release-blueox-os
 jobs:
   build-iso:
     name: Generate and Release ISOs
     runs-on: ubuntu-latest
     container:
-      image: fedora:39
+      image: fedora:${{ github.event.inputs.fedora_version }}
       options: --privileged
     permissions:
       contents: write
@@ -18,7 +25,7 @@ jobs:
         with:
           image-name: ${{ github.event.repository.name }}
           installer-repo: releases
-          installer-major-version: 39
+          installer-major-version: ${{ github.event.inputs.fedora_version }}
           boot-menu-path: boot_menu.yml
       - name: Install GitHub CLI in Runner
         run: |
@@ -33,10 +40,10 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           gh release create \
-            39-${{ steps.date.outputs.date }} \
+            ${{ github.event.inputs.fedora_version }}-${{ steps.date.outputs.date }} \
             --target main \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
-            --notes 39-${{ steps.date.outputs.date }} \
+            --notes ${{ github.event.inputs.fedora_version }}-${{ steps.date.outputs.date }} \
             || true
 
       - name: Upload ISO
@@ -44,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           gh release upload \
-            39-${{ steps.date.outputs.date }} \
+            ${{ github.event.inputs.fedora_version }}-${{ steps.date.outputs.date }} \
             ./${{ steps.isogenerator.outputs.iso-path }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --clobber
@@ -54,7 +61,16 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           gh release upload \
-            39-${{ steps.date.outputs.date }} \
+            ${{ github.event.inputs.fedora_version }}-${{ steps.date.outputs.date }} \
             ./${{ steps.isogenerator.outputs.sha256sum-path }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --clobber
+
+      - name: Trigger Release Workflow
+        if: success() && github.event_name != 'pull_request'
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ github.token }}" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d '{"event_type": "trigger-release"}'
