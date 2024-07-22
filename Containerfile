@@ -19,6 +19,7 @@ RUN /tmp/os-config/install-rpmfusion.sh
 #RUN /tmp/os-config/install-AMDCTL.sh
 #RUN /tmp/os-config/install-lact.sh
 RUN /tmp/os-config/install-distrobox.sh
+RUN /tmp/os-config/install-dropbox.sh
 RUN /tmp/os-config/install-ghcli.sh
 RUN /tmp/os-config/install-vscode.sh
 RUN /tmp/os-config/install-apple-fonts.sh
