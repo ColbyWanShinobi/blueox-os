@@ -39,7 +39,16 @@
     "zstd"
   ],
   "exclude": [
+    "ffmpeg-free",
     "firefox-langpacks",
-    "firefox"
+    "firefox",
+    "libavcodec-free",
+    "libavdevice-free",
+    "libavfilter-free",
+    "libavformat-free",
+    "libavutil-free",
+    "libpostproc-free",
+    "libswresample-free",
+    "libswscale-free"
   ]
 }
