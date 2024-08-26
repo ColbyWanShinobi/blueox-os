@@ -6,7 +6,7 @@ After setup, it is recommended you update this README to describe your custom im
 
 ## Installation
 
-> **Warning**  
+> **Warning**
 > [This is an experimental feature](https://www.fedoraproject.org/wiki/Changes/OstreeNativeContainerStable), try at your own discretion.
 
 To rebase an existing atomic Fedora installation to the latest build:
@@ -41,3 +41,8 @@ These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](ht
 ```bash
 cosign verify --key cosign.pub ghcr.io/colbywanshinobi/blueox-os
 ```
+## ublue Image Layer Order
+config - udev rules
+akmods - kernel mods
+main-kernel - ???
+main - shared by most images
