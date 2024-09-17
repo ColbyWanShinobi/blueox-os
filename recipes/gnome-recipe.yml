@@ -7,6 +7,8 @@ description: Bazzite with personal customizations
 # base-image: ghcr.io/ublue-os/silverblue-main
 base-image: ghcr.io/ublue-os/bazzite-gnome
 image-version: 40 # latest is also supported if you want new updates ASAP
+alt-tags:
+  - gnome
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
