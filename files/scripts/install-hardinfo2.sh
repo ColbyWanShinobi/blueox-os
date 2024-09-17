@@ -2,9 +2,9 @@
 
 set -euo pipefail
 ################
-APP_NAME=vscode
-APP_COMMAND=code
-DL_URL='https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
+APP_NAME=hardinfo2
+APP_COMMAND=hardinfo2
+DL_URL='https://kojipkgs.fedoraproject.org/packages/hardinfo2/2.1.14/1.fc40/x86_64/hardinfo2-2.1.14-1.fc40.x86_64.rpm'
 PACKAGE_TYPE=rpm
 ################
 # Space delimited list of required command-line utilities to run this script
