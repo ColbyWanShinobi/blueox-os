@@ -37,4 +37,4 @@ curl --location --silent --fail --show-error --output ${PACKAGE_PATH} ${DL_URL}
 
 # Install the package
 echo "Installing ${PACKAGE_PATH}"
-sudo rpm-ostree install -y ${PACKAGE_PATH}
+rpm-ostree install -y ${PACKAGE_PATH}
