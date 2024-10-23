@@ -26,6 +26,7 @@ modules:
     install:
       - faugus-launcher
       - qdirstat
+      - kvantum
       # - micro
       # - starship
       # - ddcutil
