@@ -4,6 +4,21 @@ See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup i
 
 After setup, it is recommended you update this README to describe your custom image.
 
+## Custom
+```
+  rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:gnome
+  rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:gnome-nvidia
+  rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:kde
+  rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:kde-nvidia
+```
+
+```
+  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:gnome
+  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:gnome-nvidia
+  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:kde
+  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:kde-nvidia
+```
+
 ## Installation
 
 > **Warning**
