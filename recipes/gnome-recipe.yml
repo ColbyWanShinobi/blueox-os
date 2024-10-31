@@ -6,7 +6,7 @@ description: Bazzite with personal customizations
 # the base image to build on top of (FROM) and the version tag to use
 # base-image: ghcr.io/ublue-os/silverblue-main
 base-image: ghcr.io/ublue-os/bazzite-gnome
-image-version: 40 # latest is also supported if you want new updates ASAP
+image-version: 41 # latest is also supported if you want new updates ASAP
 alt-tags:
   - gnome
 
