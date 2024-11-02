@@ -13,10 +13,10 @@ After setup, it is recommended you update this README to describe your custom im
 ```
 
 ```
-  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:gnome
-  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:gnome-nvidia
-  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:kde
-  rpm-ostree rebase ostree-image-signed:ghcr.io/colbywanshinobi/blueox-os:kde-nvidia
+  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:gnome
+  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:gnome-nvidia
+  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:kde
+  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:kde-nvidia
 ```
 
 ## Installation
