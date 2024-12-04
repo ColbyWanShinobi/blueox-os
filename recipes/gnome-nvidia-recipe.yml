@@ -48,6 +48,7 @@ modules:
       # - myscript.sh # example: run config/scripts/myscript.sh
       - install-vscode.sh
       - install-hardinfo2.sh
+      - install-cyberpower-ups.sh
 
   - type: default-flatpaks
     notify: true # Send notification after install/uninstall is finished (true/false)
