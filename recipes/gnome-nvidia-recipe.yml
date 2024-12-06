@@ -28,6 +28,7 @@ modules:
     install:
       - faugus-launcher
       - qdirstat
+      - podman-compose
       # - micro
       # - starship
       # - ddcutil
@@ -48,7 +49,7 @@ modules:
       # - myscript.sh # example: run config/scripts/myscript.sh
       - install-vscode.sh
       - install-hardinfo2.sh
-      - install-cyberpower-ups.sh
+      # - install-cyberpower-ups.sh
 
   - type: default-flatpaks
     notify: true # Send notification after install/uninstall is finished (true/false)
@@ -73,6 +74,9 @@ modules:
         - org.gnome.Boxes
         - org.gnome.Boxes.Extension.OsinfoDb
         - org.mozilla.firefox
+        - com.microsoft.Edge
+        - eu.betterbird.Betterbird
+        - org.qbittorrent.qBittorrent
         # - org.gnome.Loupe
         # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
       # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
