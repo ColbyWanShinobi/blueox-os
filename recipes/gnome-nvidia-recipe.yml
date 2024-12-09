@@ -65,18 +65,21 @@ modules:
         - com.github.childishgiant.mixer
         - com.github.tchx84.Flatseal
         - com.mattjakeman.ExtensionManager
+        - com.microsoft.Edge
         - com.slack.Slack
         - com.spotify.Client
+        - eu.betterbird.Betterbird
         - io.github.fastrizwaan.WineZGUI
+        - io.github.flattool.Warehouse
         - io.github.pwr_solaar.solaar
-        - io.mpv.Mpv
+        - io.github.pwr_solaar.solaar
+        - it.mijorus.gearlever
         - org.deluge_torrent.deluge
         - org.gnome.Boxes
         - org.gnome.Boxes.Extension.OsinfoDb
         - org.mozilla.firefox
-        - com.microsoft.Edge
-        - eu.betterbird.Betterbird
         - org.qbittorrent.qBittorrent
+
         # - org.gnome.Loupe
         # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
       # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
