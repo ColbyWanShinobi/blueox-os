@@ -25,9 +25,10 @@ modules:
       - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
       - faugus-launcher
-      - qdirstat
+      - gnome-session-xsession
       - kvantum
       - podman-compose
+      - qdirstat
       # - micro
       # - starship
       # - ddcutil
@@ -58,25 +59,34 @@ modules:
       repo-name: flathub
       repo-title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
       install:
+        - com.core447.StreamController
+        - com.dec05eba.gpu_screen_recorder
         - com.discordapp.Discord
         - com.dropbox.Client
+        - com.feaneron.Boatswain
         - com.github.childishgiant.mixer
         - com.github.tchx84.Flatseal
+        - com.gitlab.davem.ClamTk
         - com.microsoft.Edge
         - com.slack.Slack
         - com.spotify.Client
         - eu.betterbird.Betterbird
+        - io.github.arunsivaramanneo.GPUViewer
         - io.github.fastrizwaan.WineZGUI
         - io.github.flattool.Warehouse
         - io.github.pwr_solaar.solaar
-        - io.github.pwr_solaar.solaar
+        - io.github.ungoogled_software.ungoogled_chromium
+        - io.gitlab.librewolf-community
         - io.mpv.Mpv
         - it.mijorus.gearlever
+        - it.mijorus.whisper
+        - net.waterfox.waterfox
         - org.deluge_torrent.deluge
         - org.gnome.Boxes
         - org.gnome.Boxes.Extension.OsinfoDb
-        - org.mozilla.firefox
+        - org.kde.haruna
         - org.qbittorrent.qBittorrent
+        - us.zoom.Zoom
 
         # - org.gnome.Loupe
         # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
