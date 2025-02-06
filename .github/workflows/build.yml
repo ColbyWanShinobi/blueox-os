@@ -22,10 +22,10 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - kde-recipe.yml
+          #- kde-recipe.yml
           - gnome-recipe.yml
-          - kde-nvidia-recipe.yml
-          - gnome-nvidia-recipe.yml
+          #- kde-nvidia-recipe.yml
+          #- gnome-nvidia-recipe.yml
     steps:
        # the build is fully handled by the reusable github action
       - name: Build Custom Image
