@@ -28,7 +28,6 @@ modules:
     install:
       - faugus-launcher
       - gnome-session-xsession
-      - podman-compose
       - qdirstat
       # - micro
       # - starship

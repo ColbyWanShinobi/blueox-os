@@ -26,7 +26,6 @@ modules:
     install:
       - faugus-launcher
       - gnome-session-xsession
-      - podman-compose
       - qdirstat
       - kernel-devel
     # remove:
