@@ -40,9 +40,6 @@ modules:
       # "firefox" is the main package, "firefox-langpacks" is a dependency
       # - firefox
       # - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
-      - gnome-shell-extension-compiz*
-      - gnome-shell-extension-gamerzilla*
-      - gnome-shell-extension-hotedge*
 
   - type: script
     snippets:
@@ -54,6 +51,7 @@ modules:
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
+      - remove-select-gnome-shell-system-extensions.sh
 
   - type: default-flatpaks
     notify: true # Send notification after install/uninstall is finished (true/false)
