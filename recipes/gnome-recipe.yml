@@ -38,7 +38,7 @@ modules:
     snippets:
       - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
-      - install-msi-ec.sh
+      #- install-msi-ec.sh
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
