@@ -27,6 +27,7 @@ modules:
       - faugus-launcher
       - gnome-session-xsession
       - qdirstat
+      - powertop
       # - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
