@@ -78,7 +78,6 @@ modules:
         - it.mijorus.gearlever
         - it.mijorus.whisper
         - net.waterfox.waterfox
-        - org.deluge_torrent.deluge
         - org.gnome.Boxes
         - org.gnome.Boxes.Extension.OsinfoDb
         - org.kde.haruna
