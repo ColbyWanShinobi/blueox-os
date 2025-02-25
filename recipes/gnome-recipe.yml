@@ -30,6 +30,7 @@ modules:
       - htop
       - qdirstat
       - powertop
+      - gparted
       # - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
@@ -74,7 +75,6 @@ modules:
         - io.github.pwr_solaar.solaar
         - io.github.ungoogled_software.ungoogled_chromium
         - io.gitlab.librewolf-community
-        - io.mpv.Mpv
         - it.mijorus.gearlever
         - it.mijorus.whisper
         - net.waterfox.waterfox
