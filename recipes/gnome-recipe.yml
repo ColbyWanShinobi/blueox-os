@@ -31,6 +31,8 @@ modules:
       - qdirstat
       - powertop
       - gparted
+      - nethogs
+      - iotop-c
       # - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
