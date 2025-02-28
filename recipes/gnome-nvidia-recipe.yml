@@ -30,6 +30,9 @@ modules:
       - htop
       - qdirstat
       - powertop
+      - gparted
+      - nethogs
+      - iotop-c
       # - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
@@ -74,7 +77,6 @@ modules:
         - io.github.pwr_solaar.solaar
         - io.github.ungoogled_software.ungoogled_chromium
         - io.gitlab.librewolf-community
-        - io.mpv.Mpv
         - it.mijorus.gearlever
         - it.mijorus.whisper
         - net.waterfox.waterfox
@@ -88,8 +90,8 @@ modules:
       # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
       # only normal flatpak applications are (like Floorp Lightning web browser in this example).
       # Installing different branches of the same Flatpak is not supported.
-      #remove:
-      # - org.gnome.eog
+      remove:
+        - org.mozilla.firefox
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
