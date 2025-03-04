@@ -64,6 +64,7 @@ modules:
         - com.dropbox.Client
         - com.feaneron.Boatswain
         - com.github.childishgiant.mixer
+        - com.github.rajsolai.textsnatcher
         - com.github.tchx84.Flatseal
         - com.gitlab.davem.ClamTk
         - com.mattjakeman.ExtensionManager
