@@ -33,6 +33,10 @@ modules:
       - gparted
       - nethogs
       - iotop-c
+      - libimobiledevice
+      - ifuse
+      - gtkpod
+      - gvfs
       # - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
