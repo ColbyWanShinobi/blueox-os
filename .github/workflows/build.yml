@@ -25,8 +25,8 @@ jobs:
           #- kde-recipe.yml
           - gnome-recipe.yml
           #- kde-nvidia-recipe.yml
-          - gnome-nvidia-recipe.yml
-          - redux.yml
+          #- gnome-nvidia-recipe.yml
+          #- redux.yml
     steps:
        # the build is fully handled by the reusable github action
       - name: Build Custom Image
