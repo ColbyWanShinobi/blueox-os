@@ -20,12 +20,8 @@ modules:
   #      destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
   - type: rpm-ostree
-    repos:
-      - https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
-      - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
       - ddcutil
-      - faugus-launcher
       - gnome-session-xsession
       - htop
       - qdirstat
@@ -45,8 +41,6 @@ modules:
       # - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
   - type: script
-    snippets:
-      - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
       - install-vscode.sh
