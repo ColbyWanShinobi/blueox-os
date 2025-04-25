@@ -23,16 +23,17 @@ modules:
     install:
       - ddcutil
       - gnome-session-xsession
-      - htop
-      - qdirstat
-      - powertop
+      - gnome-tweaks
       - gparted
-      - nethogs
-      - iotop-c
-      - libimobiledevice
-      - ifuse
       - gtkpod
       - gvfs
+      - htop
+      - ifuse
+      - iotop-c
+      - libimobiledevice
+      - nethogs
+      - powertop
+      - qdirstat
       - wtype
       # - kernel-devel
     # remove:
