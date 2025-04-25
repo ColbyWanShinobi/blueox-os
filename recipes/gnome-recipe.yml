@@ -33,6 +33,7 @@ modules:
       - ifuse
       - gtkpod
       - gvfs
+      - wtype
       # - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
