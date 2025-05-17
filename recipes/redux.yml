@@ -14,29 +14,31 @@ alt-tags:
 # module configuration, executed in order
 # you can include multiple instances of the same module
 modules:
-  - type: files
-    files:
-      - source: system
-        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
+  #- type: files
+  #  files:
+  #    - source: system
+  #      destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
   - type: rpm-ostree
     repos:
       - https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
-      - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
+      #- https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
       - ddcutil
       - faugus-launcher
       - gnome-session-xsession
-      - htop
-      - qdirstat
-      - powertop
+      - gnome-tweaks
       - gparted
-      - nethogs
-      - iotop-c
-      - libimobiledevice
-      - ifuse
       - gtkpod
       - gvfs
+      - htop
+      - ifuse
+      - iotop-c
+      - libimobiledevice
+      - nethogs
+      - powertop
+      - qdirstat
+      - wtype
       # - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
@@ -45,8 +47,8 @@ modules:
       # - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
   - type: script
-    snippets:
-      - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
+    #snippets:
+    #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
       - install-vscode.sh
@@ -62,6 +64,7 @@ modules:
       repo-title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
       install:
         - ca.desrt.dconf-editor
+        - com.calibre_ebook.calibre
         - com.core447.StreamController
         - com.dec05eba.gpu_screen_recorder
         - com.discordapp.Discord
@@ -91,6 +94,7 @@ modules:
         - org.pulseaudio.pavucontrol
         - org.qbittorrent.qBittorrent
         - us.zoom.Zoom
+        - xyz.tytanium.DoorKnocker
         # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
       # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
       # only normal flatpak applications are (like Floorp Lightning web browser in this example).
