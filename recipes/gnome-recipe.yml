@@ -38,6 +38,7 @@ modules:
       - nethogs
       - powertop
       - qdirstat
+      - v4l-utils
       - wtype
       # - kernel-devel
     # remove:
