@@ -38,6 +38,7 @@ modules:
       - nethogs
       - podman-docker
       - powertop
+      - python3-gpg
       - qdirstat
       - rocminfo
       - v4l-utils
