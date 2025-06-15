@@ -55,7 +55,7 @@ modules:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
-      - install-dropbox.sh
+      #- install-dropbox.sh
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
@@ -73,7 +73,7 @@ modules:
         - com.core447.StreamController
         - com.dec05eba.gpu_screen_recorder
         - com.discordapp.Discord
-        #- com.dropbox.Client
+        - com.dropbox.Client
         - com.feaneron.Boatswain
         - com.github.childishgiant.mixer
         - com.github.rajsolai.textsnatcher
