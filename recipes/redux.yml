@@ -38,6 +38,13 @@ modules:
       - nethogs
       - powertop
       - qdirstat
+      - rocm
+      - rocm-hip
+      - rocm-opencl
+      - rocm-smi
+      - rocm-utils
+      - rocminfo
+      - v4l-utils
       - wtype
       # - kernel-devel
     # remove:
