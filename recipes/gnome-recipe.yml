@@ -69,7 +69,6 @@ modules:
       repo-title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
       install:
         - ca.desrt.dconf-editor
-        - com.calibre_ebook.calibre
         - com.core447.StreamController
         - com.dec05eba.gpu_screen_recorder
         - com.discordapp.Discord
@@ -89,10 +88,8 @@ modules:
         - io.github.flattool.Warehouse
         - io.github.pwr_solaar.solaar
         - io.github.ungoogled_software.ungoogled_chromium
-        - io.gitlab.librewolf-community
         - it.mijorus.gearlever
         - it.mijorus.whisper
-        - net.waterfox.waterfox
         - org.gnome.Boxes
         - org.gnome.Boxes.Extension.OsinfoDb
         - org.kde.haruna
