@@ -25,6 +25,7 @@ modules:
       #- https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
       - ddcutil
+      #- docker-compose-plugin ## Can't find it
       - faugus-launcher
       - gnome-tweaks
       - gparted
@@ -34,6 +35,8 @@ modules:
       - kvantum
       - libimobiledevice
       - nethogs
+      - podman-compose
+      - podman-docker
       - powertop
       - qdirstat
       - rocm-hip
