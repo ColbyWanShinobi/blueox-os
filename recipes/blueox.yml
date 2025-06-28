@@ -37,6 +37,7 @@ modules:
       - libimobiledevice
       - nethogs
       - podman-docker
+      - podman-compose
       - powertop
       - python3-gpg
       - qdirstat
