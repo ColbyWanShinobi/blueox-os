@@ -30,6 +30,7 @@ modules:
       - ddcutil
       #- docker-compose-plugin ## Can't find it
       - faugus-launcher
+      - gamescope
       - gnome-tweaks
       - gparted
       - htop
@@ -37,6 +38,8 @@ modules:
       - iotop-c
       - kvantum
       - libimobiledevice
+      #- lutris
+      - mangohud
       - nethogs
       - podman-compose
       - podman-docker
