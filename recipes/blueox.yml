@@ -93,6 +93,7 @@ modules:
         - org.gnome.Boxes
         - org.gnome.Boxes.Extension.OsinfoDb
         - org.kde.haruna
+        - org.localsend.localsend_app
         - org.pulseaudio.pavucontrol
         - org.qbittorrent.qBittorrent
         - us.zoom.Zoom
