@@ -35,6 +35,7 @@ modules:
       - ifuse
       - iotop-c
       - libimobiledevice
+      - nautilus-dropbox
       - nethogs
       - podman-docker
       - podman-compose
