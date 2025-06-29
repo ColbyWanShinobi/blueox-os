@@ -74,7 +74,6 @@ modules:
         - com.core447.StreamController
         - com.dec05eba.gpu_screen_recorder
         - com.discordapp.Discord
-        - com.dropbox.Client
         - com.feaneron.Boatswain
         - com.github.childishgiant.mixer
         - com.github.rajsolai.textsnatcher
