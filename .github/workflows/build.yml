@@ -28,10 +28,11 @@ jobs:
           #- gnome-nvidia-recipe.yml
           #- redux.yml
           - blueox.yml
-          - blueox-41.yml
+          #- blueox-41.yml
     steps:
        # the build is fully handled by the reusable github action
       - name: Build Custom Image
+        id: build-image
         uses: blue-build/github-action@v1.6
         with:
           recipe: ${{ matrix.recipe }}
@@ -41,3 +42,6 @@ jobs:
 
           # enabled by default, disable if your image is small and you want faster builds
           maximize_build_space: true
+      - name: Debug outputs
+        run: |
+          echo "${{ toJson(steps.build-image.outputs) }}"
