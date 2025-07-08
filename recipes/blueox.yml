@@ -47,6 +47,7 @@ modules:
       - qdirstat
       - rocminfo
       - v4l-utils
+      - wine
       - wtype
       # - kernel-devel
     # remove:
