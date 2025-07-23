@@ -1,15 +1,14 @@
----
-# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 # image will be published to ghcr.io/<user>/<name>
 name: blueox-os
 # description will be included in the image's metadata
-description: Silverblue with personal customizations
+description: Bazzite with personal customizations
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/silverblue-main
+# base-image: ghcr.io/ublue-os/silverblue-main
+base-image: ghcr.io/ublue-os/bazzite
 image-version: 42 # latest is also supported if you want new updates ASAP
 alt-tags:
-  - redux
+  - kde
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
@@ -22,40 +21,47 @@ modules:
   - type: rpm-ostree
     repos:
       - https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
+      - https://copr.fedorainfracloud.org/coprs/codifryed/CoolerControl/repo/fedora-%OS_VERSION%/codifryed-CoolerControl-fedora-%OS_VERSION%.repo
       #- https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
+      - cmake
+      - coolercontrol
       - ddcutil
       - faugus-launcher
-      - gnome-session-xsession
-      - gnome-tweaks
       - gparted
-      - gtkpod
-      - gvfs
       - htop
       - ifuse
       - iotop-c
       - libimobiledevice
+      - kvantum
       - nethogs
+      - podman-docker
+      - podman-compose
       - powertop
+      - python3-gpg
       - qdirstat
-      - rocm-hip
-      - rocm-opencl
-      - rocm-smi
       - rocminfo
       - v4l-utils
+      - wine
       - wtype
-      # - kernel-devel
-    # remove:
+      # - micro
+      # - starship
+      # - ddcutil
+      # - nano
+
+    remove:
       # example: removing firefox (in favor of the flatpak)
       # "firefox" is the main package, "firefox-langpacks" is a dependency
       # - firefox
       # - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
   - type: script
-    #snippets:
+    snippets:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
+    #  - "curl https://example.com/examplebinary > /usr/bin/examplebinary" # example: download binary
+    #  - "ln -sf /usr/bin/ld.bfd /etc/alternatives/ld && ln -sf /etc/alternatives/ld /usr/bin/ld" # example: ld alternatives symlink workaround
     scripts:
-      #- install-msi-ec.sh
+      # - myscript.sh # example: run config/scripts/myscript.sh
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
@@ -68,18 +74,14 @@ modules:
       repo-name: flathub
       repo-title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
       install:
-        - ca.desrt.dconf-editor
-        - com.calibre_ebook.calibre
         - com.core447.StreamController
         - com.dec05eba.gpu_screen_recorder
         - com.discordapp.Discord
-        - com.dropbox.Client
         - com.feaneron.Boatswain
         - com.github.childishgiant.mixer
         - com.github.rajsolai.textsnatcher
         - com.github.tchx84.Flatseal
         - com.gitlab.davem.ClamTk
-        - com.mattjakeman.ExtensionManager
         - com.microsoft.Edge
         - com.slack.Slack
         - com.spotify.Client
@@ -92,20 +94,21 @@ modules:
         - io.gitlab.librewolf-community
         - it.mijorus.gearlever
         - it.mijorus.whisper
-        - net.waterfox.waterfox
         - org.gnome.Boxes
         - org.gnome.Boxes.Extension.OsinfoDb
         - org.kde.haruna
+        - org.localsend.localsend_app
         - org.pulseaudio.pavucontrol
         - org.qbittorrent.qBittorrent
         - us.zoom.Zoom
         - xyz.tytanium.DoorKnocker
+        # - org.gnome.Loupe
         # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
       # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
       # only normal flatpak applications are (like Floorp Lightning web browser in this example).
       # Installing different branches of the same Flatpak is not supported.
       remove:
+      # - org.gnome.eog
         - org.mozilla.firefox
 
-  # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
