@@ -39,7 +39,7 @@ modules:
       - ifuse
       - iotop-c
       - libimobiledevice
-      - nautilus-dropbox
+      #- nautilus-dropbox
       - nethogs
       - podman-docker
       - podman-compose
@@ -62,54 +62,56 @@ modules:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
-      #- install-dropbox.sh
+      - install-dropbox.sh
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
 
   - type: default-flatpaks
-    notify: true # Send notification after install/uninstall is finished (true/false)
-    system:
+    configurations:
+      - notify: true # Send notification after install/uninstall is finished (true/false)
+        scope: system
+        repo:
+          url: https://dl.flathub.org/repo/flathub.flatpakrepo
+          name: flathub
+          title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
       # If no repo information is specified, Flathub will be used by default
-      repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
-      repo-name: flathub
-      repo-title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
-      install:
-        - ca.desrt.dconf-editor
-        - com.core447.StreamController
-        - com.dec05eba.gpu_screen_recorder
-        - com.discordapp.Discord
-        - com.feaneron.Boatswain
-        - com.github.childishgiant.mixer
-        - com.github.rajsolai.textsnatcher
-        - com.github.tchx84.Flatseal
-        - com.gitlab.davem.ClamTk
-        - com.mattjakeman.ExtensionManager
-        - com.microsoft.Edge
-        - com.slack.Slack
-        - com.spotify.Client
-        - eu.betterbird.Betterbird
-        - io.github.arunsivaramanneo.GPUViewer
-        - io.github.fastrizwaan.WineZGUI
-        - io.github.flattool.Warehouse
-        - io.github.pwr_solaar.solaar
-        - io.github.ungoogled_software.ungoogled_chromium
-        - it.mijorus.gearlever
-        - it.mijorus.whisper
-        - org.gnome.Boxes
-        - org.gnome.Boxes.Extension.OsinfoDb
-        - org.kde.haruna
-        - org.localsend.localsend_app
-        - org.pulseaudio.pavucontrol
-        - org.qbittorrent.qBittorrent
-        - us.zoom.Zoom
-        - xyz.tytanium.DoorKnocker
-        # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
-      # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
-      # only normal flatpak applications are (like Floorp Lightning web browser in this example).
-      # Installing different branches of the same Flatpak is not supported.
-      remove:
-        - org.mozilla.firefox
+        install:
+          - ca.desrt.dconf-editor
+          - com.core447.StreamController
+          - com.dec05eba.gpu_screen_recorder
+          - com.discordapp.Discord
+          - com.feaneron.Boatswain
+          - com.github.childishgiant.mixer
+          - com.github.rajsolai.textsnatcher
+          - com.github.tchx84.Flatseal
+          - com.gitlab.davem.ClamTk
+          - com.mattjakeman.ExtensionManager
+          - com.microsoft.Edge
+          - com.slack.Slack
+          - com.spotify.Client
+          - eu.betterbird.Betterbird
+          - io.github.arunsivaramanneo.GPUViewer
+          - io.github.fastrizwaan.WineZGUI
+          - io.github.flattool.Warehouse
+          - io.github.pwr_solaar.solaar
+          - io.github.ungoogled_software.ungoogled_chromium
+          - it.mijorus.gearlever
+          - it.mijorus.whisper
+          - org.gnome.Boxes
+          - org.gnome.Boxes.Extension.OsinfoDb
+          - org.kde.haruna
+          - org.localsend.localsend_app
+          - org.pulseaudio.pavucontrol
+          - org.qbittorrent.qBittorrent
+          - us.zoom.Zoom
+          - xyz.tytanium.DoorKnocker
+          # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
+        # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
+        # only normal flatpak applications are (like Floorp Lightning web browser in this example).
+        # Installing different branches of the same Flatpak is not supported.
+        remove:
+          - org.mozilla.firefox
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
