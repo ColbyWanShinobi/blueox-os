@@ -48,6 +48,7 @@ jobs:
           # BlueBuild typically creates these tags based on the registry and namespace
           REGISTRY="ghcr.io"
           NAMESPACE="${{ github.repository_owner }}"
+          NAMESPACE=$(echo "$NAMESPACE" | tr '[:upper:]' '[:lower:]')
           REPO_NAME="blueox-os"
           DATE_TAG=$(date +%Y%m%d)
           SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
