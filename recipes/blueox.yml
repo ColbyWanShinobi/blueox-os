@@ -30,7 +30,6 @@ modules:
       - coolercontrol
       - ddcutil
       - edid-decode
-      - faugus-launcher
       - gnome-session-xsession
       - gnome-tweaks
       - gparted
