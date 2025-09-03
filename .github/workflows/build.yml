@@ -33,7 +33,7 @@ jobs:
        # the build is fully handled by the reusable github action
       - name: Build Custom Image
         id: build-image
-        uses: blue-build/github-action@v1.8
+        uses: blue-build/github-action@v1.9
         with:
           recipe: ${{ matrix.recipe }}
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
@@ -45,23 +45,25 @@ jobs:
       - name: Display Built Images
         run: |
           echo "=> Finished building:"
-          if [ -n "${{ steps.build-image.outputs.images }}" ]; then
-            echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's/^/\t- /'
-            echo ""
-            echo "=> Available rebase commands:"
-            echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's|.*:\(.*\)|\trpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:\1|'
-          elif [ -n "${{ steps.build-image.outputs.image }}" ]; then
-            echo "${{ steps.build-image.outputs.image }}" | tr ',' '\n' | sed 's/^/\t- /'
-            echo ""
-            echo "=> Available rebase commands:"
-            echo "${{ steps.build-image.outputs.image }}" | tr ',' '\n' | sed 's|.*:\(.*\)|\trpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:\1|'
-          else
-            echo "No image output found. Available outputs:"
-            echo "Images: '${{ steps.build-image.outputs.images }}'"
-            echo "Image: '${{ steps.build-image.outputs.image }}'"
-            echo "Registry: '${{ steps.build-image.outputs.registry }}'"
-            echo "Repository: '${{ steps.build-image.outputs.repository }}'"
-          fi
+          # BlueBuild typically creates these tags based on the registry and namespace
+          REGISTRY="ghcr.io"
+          NAMESPACE="${{ github.repository_owner }}"
+          REPO_NAME="blueox-os"
+          DATE_TAG=$(date +%Y%m%d)
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:latest"
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}"
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:42"
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-42"
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-42"
+          echo ""
+          echo "=> Available rebase commands:"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:latest"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:42"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-42"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-42"
       - name: Debug outputs
         run: |
           echo "${{ toJson(steps.build-image.outputs) }}"
