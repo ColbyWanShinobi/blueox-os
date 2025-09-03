@@ -45,10 +45,23 @@ jobs:
       - name: Display Built Images
         run: |
           echo "=> Finished building:"
-          echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's/^/\t- /'
-          echo ""
-          echo "=> Available rebase commands:"
-          echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's|.*:\(.*\)|\trpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:\1|'
+          if [ -n "${{ steps.build-image.outputs.images }}" ]; then
+            echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's/^/\t- /'
+            echo ""
+            echo "=> Available rebase commands:"
+            echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's|.*:\(.*\)|\trpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:\1|'
+          elif [ -n "${{ steps.build-image.outputs.image }}" ]; then
+            echo "${{ steps.build-image.outputs.image }}" | tr ',' '\n' | sed 's/^/\t- /'
+            echo ""
+            echo "=> Available rebase commands:"
+            echo "${{ steps.build-image.outputs.image }}" | tr ',' '\n' | sed 's|.*:\(.*\)|\trpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:\1|'
+          else
+            echo "No image output found. Available outputs:"
+            echo "Images: '${{ steps.build-image.outputs.images }}'"
+            echo "Image: '${{ steps.build-image.outputs.image }}'"
+            echo "Registry: '${{ steps.build-image.outputs.registry }}'"
+            echo "Repository: '${{ steps.build-image.outputs.repository }}'"
+          fi
       - name: Debug outputs
         run: |
           echo "${{ toJson(steps.build-image.outputs) }}"
