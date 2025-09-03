@@ -42,6 +42,13 @@ jobs:
 
           # enabled by default, disable if your image is small and you want faster builds
           maximize_build_space: true
+      - name: Display Built Images
+        run: |
+          echo "=> Finished building:"
+          echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's/^/\t- /'
+          echo ""
+          echo "=> Available rebase commands:"
+          echo "${{ steps.build-image.outputs.images }}" | tr ',' '\n' | sed 's|.*:\(.*\)|\trpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:\1|'
       - name: Debug outputs
         run: |
           echo "${{ toJson(steps.build-image.outputs) }}"

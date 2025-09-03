@@ -77,6 +77,7 @@ modules:
       # If no repo information is specified, Flathub will be used by default
         install:
           - ca.desrt.dconf-editor
+          - com.brave.Browser
           - com.core447.StreamController
           - com.dec05eba.gpu_screen_recorder
           - com.discordapp.Discord
@@ -85,8 +86,10 @@ modules:
           - com.github.rajsolai.textsnatcher
           - com.github.tchx84.Flatseal
           - com.gitlab.davem.ClamTk
+          - com.heroicgameslauncher.hgl
           - com.mattjakeman.ExtensionManager
           - com.microsoft.Edge
+          - com.ranfdev.DistroShelf
           - com.slack.Slack
           - com.spotify.Client
           - eu.betterbird.Betterbird
@@ -95,6 +98,7 @@ modules:
           - io.github.flattool.Warehouse
           - io.github.pwr_solaar.solaar
           - io.github.ungoogled_software.ungoogled_chromium
+          - io.missioncenter.MissionCenter
           - it.mijorus.gearlever
           - it.mijorus.whisper
           - org.gnome.Boxes
