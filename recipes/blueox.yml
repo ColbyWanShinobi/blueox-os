@@ -18,7 +18,6 @@ modules:
   #  files:
   #    - source: system
   #      destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
-
   - type: rpm-ostree
     repos:
       #- https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
@@ -40,7 +39,7 @@ modules:
       - iotop-c
       - libimobiledevice
       - monitor-edid
-      #- nautilus-dropbox
+      - nautilus-dropbox
       - nethogs
       - podman-docker
       - podman-compose
@@ -63,7 +62,7 @@ modules:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
-      - install-dropbox.sh
+      #- install-dropbox.sh
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
@@ -117,6 +116,36 @@ modules:
         # Installing different branches of the same Flatpak is not supported.
         remove:
           - org.mozilla.firefox
+  - type: gnome-extensions
+    install:
+      - 6868  # screenshort-cut
+      - 1386  # notification-counter
+      - 1460  # vitals
+      - 1674  # topiconsfix
+      - 19    # user-themes
+      - 258   # notifications-alert-on-user-menu
+      - 2929  # battery-time-percentage-compact
+      - 307   # dash-to-dock
+      - 3795  # notification-timeout
+      - 4099  # no-overview
+      - 4105  # notification-banner-position
+      - 4228  # wireless-hid
+      - 4548  # tactile
+      - 615   # appindicator-support
+      - 6242  # emoji-copy
+      - 6278  # battery-usage-wattmeter
+      - 6325  # control-monitor-brightness-and-volume-with-ddcutil
+      - 744   # hide-activities-button
+      - 6000  # quick-settings-audio-devices-renamer
+      - 6898  # dual-monitor-toggle
+      - 1262  # bing-wallpaper-changer
+      - 6679  # power-profile-indicator
+      - 6583  # auto-power-profile
+      - 5362  # wireguard-vpn-extension
+      - 5964  # quick-settings-audio-devices-hider
+      - 1183  # utcclock
+      - 3733  # tiling-assistant
+      - 7603  # advanced-weather-companion
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
