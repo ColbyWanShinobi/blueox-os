@@ -66,6 +66,7 @@ modules:
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
+      - install-mcontrolcenter.sh
 
   - type: default-flatpaks
     configurations:
