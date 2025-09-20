@@ -26,6 +26,7 @@ modules:
     install:
       - acpica-tools
       - cmake
+      - conda
       - coolercontrol
       - ddcutil
       - edid-decode
@@ -44,7 +45,6 @@ modules:
       - podman-docker
       - podman-compose
       - powertop
-      - python3-conda
       - python3-gpg
       - qdirstat
       - rocminfo
