@@ -40,7 +40,7 @@ modules:
       - iotop-c
       - libimobiledevice
       - monitor-edid
-      - nautilus-dropbox
+      #- nautilus-dropbox
       - nethogs
       - podman-docker
       - podman-compose
@@ -63,7 +63,7 @@ modules:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
-      #- install-dropbox.sh
+      - install-dropbox.sh
       - install-vscode.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh

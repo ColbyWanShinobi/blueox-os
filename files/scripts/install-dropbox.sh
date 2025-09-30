@@ -26,10 +26,10 @@ echo "Creating Setup Directory: ${SETUP_PATH}"
 mkdir -p ${SETUP_PATH}
 
 # Check to see if the app is already installed
-if [ -x "$(command -v ${APP_COMMAND})" ];then
-	echo "Command '${APP_COMMAND}' is already present. Aborting install."
-	exit 0
-fi
+#if [ -x "$(command -v ${APP_COMMAND})" ];then
+#	echo "Command '${APP_COMMAND}' is already present. Aborting install."
+#	exit 0
+#fi
 
 # Download the file
 echo "Downloading file ${DL_URL} to ${PACKAGE_PATH}"
@@ -37,4 +37,8 @@ curl --location --silent --fail --show-error --output ${PACKAGE_PATH} ${DL_URL}
 
 # Install the package
 echo "Installing ${PACKAGE_PATH}"
-rpm-ostree install -y ${PACKAGE_PATH}
+
+#rpm-ostree override remove dropbox nautilus-dropbox
+#rpm-ostree install -y --allow-unsigned ${PACKAGE_PATH}
+dnf5 -y install ${PACKAGE_PATH}
+dnf5 versionlock add nautilus-dropbox
