@@ -29,8 +29,10 @@ modules:
       - conda
       - coolercontrol
       - ddcutil
+      - ddcutil-devel
       - edid-decode
       - faugus-launcher
+      - glib2-devel
       - gnome-session-xsession
       - gnome-tweaks
       - gparted
