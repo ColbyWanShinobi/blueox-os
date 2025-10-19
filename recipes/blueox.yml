@@ -29,7 +29,6 @@ modules:
       - conda
       - coolercontrol
       - ddcutil
-      - ddcutil-devel
       - edid-decode
       - faugus-launcher
       - glib2-devel
@@ -41,6 +40,7 @@ modules:
       - htop
       - ifuse
       - iotop-c
+      - libddcutil-devel
       - libimobiledevice
       - monitor-edid
       #- nautilus-dropbox
