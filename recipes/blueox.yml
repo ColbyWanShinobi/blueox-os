@@ -67,7 +67,8 @@ modules:
     scripts:
       #- install-msi-ec.sh
       - install-dropbox.sh
-      - install-vscode.sh
+      #- install-vscode.sh
+      - install-vscodium.sh
       - install-hardinfo2.sh
       # - install-cyberpower-ups.sh
       - install-mcontrolcenter.sh
