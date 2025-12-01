@@ -31,6 +31,7 @@ modules:
       - ddcutil
       - edid-decode
       - faugus-launcher
+      - gcc-c++
       - glib2-devel
       - gnome-session-xsession
       - gnome-tweaks
@@ -50,11 +51,14 @@ modules:
       - powertop
       - python3-gpg
       - qdirstat
+      - qt6-qtbase-devel
+      - qt6-qtmultimedia-devel
       - rocminfo
       - v4l-utils
       - wayland-utils
       - wtype
       # - kernel-devel
+       
     # remove:
       # example: removing firefox (in favor of the flatpak)
       # "firefox" is the main package, "firefox-langpacks" is a dependency
