@@ -89,12 +89,12 @@ modules:
         install:
           - ca.desrt.dconf-editor
           - com.brave.Browser
-          - com.core447.StreamController
+          # - com.core447.StreamController
           - com.dec05eba.gpu_screen_recorder
           - com.discordapp.Discord
           - com.feaneron.Boatswain
           - com.github.childishgiant.mixer
-          - com.github.rajsolai.textsnatcher
+          # - com.github.rajsolai.textsnatcher #  Can't find???
           - com.github.tchx84.Flatseal
           - com.gitlab.davem.ClamTk
           - com.heroicgameslauncher.hgl
