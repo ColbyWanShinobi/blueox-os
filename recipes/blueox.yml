@@ -155,7 +155,8 @@ modules:
       - 5964  # quick-settings-audio-devices-hider
       - 1183  # utcclock
       - 3733  # tiling-assistant
-      - 7603  # advanced-weather-companion
+      #- 7603  # advanced-weather-companion
+      - 8261  # simpleweather
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
