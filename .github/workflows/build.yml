@@ -22,7 +22,7 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          # - kde-recipe.yml
+          - plasma-recipe.yml
           #- gnome-recipe.yml
           #- kde-nvidia-recipe.yml
           #- gnome-nvidia-recipe.yml
@@ -52,19 +52,20 @@ jobs:
           REPO_NAME="blueox-os"
           DATE_TAG=$(date +%Y%m%d)
           SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
-          
+          FEDORA_VERSION="43"
+
           echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:latest"
           echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}"
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:42"
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-42"
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-42"
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${FEDORA_VERSION}"
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-${FEDORA_VERSION}"
+          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-${FEDORA_VERSION}"
           echo ""
           echo "=> Available rebase commands:"
           echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:latest"
           echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:42"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-42"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-42"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${FEDORA_VERSION}"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-${FEDORA_VERSION}"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-${FEDORA_VERSION}"
       - name: Debug outputs
         run: |
           echo "${{ toJson(steps.build-image.outputs) }}"

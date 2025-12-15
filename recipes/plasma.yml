@@ -6,7 +6,7 @@ name: blueox-os
 description: Bazzite with personal customizations
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/bazzite-gnome
+base-image: ghcr.io/ublue-os/bazzite
 image-version: stable-43 # latest is also supported if you want new updates ASAP
 #alt-tags:
 #  - gnome
@@ -26,18 +26,13 @@ modules:
     install:
       - acpica-tools
       #- cmake
-      - conda
       - coolercontrol
       - ddcutil
       - edid-decode
       - faugus-launcher
       #- gcc-c++
       #- glib2-devel
-      #- gnome-session-xsession
-      - gnome-tweaks
       - gparted
-      - gtkpod
-      - gvfs
       - hplip-common
       - hplip-gui
       - hplip-libs
@@ -47,20 +42,17 @@ modules:
       #- libddcutil-devel
       - libimobiledevice
       - monitor-edid
-      #- nautilus-dropbox
+      - kvantum
       - nethogs
       - podman-docker
       - podman-compose
       - powertop
       - python3-gpg
       - qdirstat
-      #- qt6-qtbase-devel
-      #- qt6-qtmultimedia-devel
       - rocminfo
       - v4l-utils
       - wayland-utils
       - wtype
-      # - kernel-devel
        
     # remove:
       # example: removing firefox (in favor of the flatpak)
@@ -73,7 +65,7 @@ modules:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
-      - install-dropbox.sh
+      #- install-dropbox.sh
       - install-vscode.sh
       - install-vscodium.sh
       - install-hardinfo2.sh
@@ -90,7 +82,6 @@ modules:
           title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
       # If no repo information is specified, Flathub will be used by default
         install:
-          - ca.desrt.dconf-editor
           - com.brave.Browser
           - com.core447.StreamController
           - com.dec05eba.gpu_screen_recorder
@@ -101,7 +92,6 @@ modules:
           - com.github.tchx84.Flatseal
           - com.gitlab.davem.ClamTk
           - com.heroicgameslauncher.hgl
-          - com.mattjakeman.ExtensionManager
           - com.microsoft.Edge
           - com.ranfdev.DistroShelf
           - com.slack.Slack
@@ -127,39 +117,8 @@ modules:
         # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
         # only normal flatpak applications are (like Floorp Lightning web browser in this example).
         # Installing different branches of the same Flatpak is not supported.
-        #remove:
-        #  - org.mozilla.firefox
-  - type: gnome-extensions
-    install:
-      #- 6868  # screenshort-cut
-      - 1386  # notification-counter
-      - 1460  # vitals
-      #- 1674  # topiconsfix
-      - 19    # user-themes
-      - 258   # notifications-alert-on-user-menu
-      - 2929  # battery-time-percentage-compact
-      - 307   # dash-to-dock
-      - 3795  # notification-timeout
-      - 4099  # no-overview
-      - 4105  # notification-banner-position
-      - 4228  # wireless-hid
-      - 4548  # tactile
-      - 615   # appindicator-support
-      - 6242  # emoji-copy
-      - 6278  # battery-usage-wattmeter
-      - 6325  # control-monitor-brightness-and-volume-with-ddcutil
-      - 744   # hide-activities-button
-      - 6000  # quick-settings-audio-devices-renamer
-      #- 6898  # dual-monitor-toggle
-      - 1262  # bing-wallpaper-changer
-      - 6679  # power-profile-indicator
-      - 6583  # auto-power-profile
-      - 5362  # wireguard-vpn-extension
-      - 5964  # quick-settings-audio-devices-hider
-      - 1183  # utcclock
-      - 3733  # tiling-assistant
-      #- 7603  # advanced-weather-companion
-      - 8261  # simpleweather
+        remove:
+          - org.mozilla.firefox
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
