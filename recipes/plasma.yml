@@ -20,7 +20,7 @@ modules:
   #      destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
   - type: rpm-ostree
     repos:
-      - https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
+      #- https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
       - https://copr.fedorainfracloud.org/coprs/codifryed/CoolerControl/repo/fedora-%OS_VERSION%/codifryed-CoolerControl-fedora-%OS_VERSION%.repo
       #- https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
@@ -29,7 +29,7 @@ modules:
       - coolercontrol
       - ddcutil
       - edid-decode
-      - faugus-launcher
+      #- faugus-launcher
       #- gcc-c++
       #- glib2-devel
       - gparted
@@ -117,8 +117,8 @@ modules:
         # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
         # only normal flatpak applications are (like Floorp Lightning web browser in this example).
         # Installing different branches of the same Flatpak is not supported.
-        remove:
-          - org.mozilla.firefox
+        #remove:
+        #  - org.mozilla.firefox
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
