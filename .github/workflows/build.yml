@@ -22,7 +22,7 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - plasma-recipe.yml
+          - plasma.yml
           #- gnome-recipe.yml
           #- kde-nvidia-recipe.yml
           #- gnome-nvidia-recipe.yml
