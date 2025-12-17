@@ -8,8 +8,8 @@ description: Bazzite with personal customizations
 # the base image to build on top of (FROM) and the version tag to use
 base-image: ghcr.io/ublue-os/bazzite
 image-version: stable-43 # latest is also supported if you want new updates ASAP
-#alt-tags:
-#  - gnome
+alt-tags:
+  - plasma
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
