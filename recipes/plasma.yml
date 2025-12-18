@@ -53,6 +53,8 @@ modules:
       - v4l-utils
       - wayland-utils
       - wtype
+      - xdg-desktop-portal
+      - xdg-desktop-portal-kde
        
     # remove:
       # example: removing firefox (in favor of the flatpak)
