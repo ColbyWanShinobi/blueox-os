@@ -54,6 +54,7 @@ modules:
       - wayland-utils
       - wtype
       - xdg-desktop-portal
+      - xdg-desktop-portal-gnome
       - xdg-desktop-portal-kde
        
     # remove:
