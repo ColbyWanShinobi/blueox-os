@@ -65,7 +65,7 @@ jobs:
           echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}"
           echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${FEDORA_VERSION}"
           echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-${FEDORA_VERSION}"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-${FEDORA_VERSION}"
+          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-plasma-${FEDORA_VERSION}"
       - name: Debug outputs
         run: |
           echo "${{ toJson(steps.build-image.outputs) }}"
