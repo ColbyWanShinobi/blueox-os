@@ -58,6 +58,10 @@ modules:
       - qdirstat
       #- qt6-qtbase-devel
       #- qt6-qtmultimedia-devel
+      - qt6-qtbase
+      - qt6-qtbase-common
+      - qt6-qtbase-gui
+      - qt6-qtmultimedia
       - rocminfo
       - v4l-utils
       - vkBasalt
