@@ -58,6 +58,7 @@ modules:
       #- qt6-qtmultimedia-devel
       - rocminfo
       - v4l-utils
+      - vkBasalt
       - wayland-utils
       - wtype
       # - kernel-devel

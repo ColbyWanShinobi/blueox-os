@@ -51,6 +51,7 @@ modules:
       - qdirstat
       - rocminfo
       - v4l-utils
+      - vkBasalt
       - wayland-utils
       - wtype
       - xdg-desktop-portal
