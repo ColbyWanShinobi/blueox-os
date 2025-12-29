@@ -46,6 +46,7 @@ modules:
       - iotop-c
       #- libddcutil-devel
       - libappindicator
+      - libappindicator-gtk3
       - libimobiledevice
       - monitor-edid
       #- nautilus-dropbox
