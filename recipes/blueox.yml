@@ -45,6 +45,7 @@ modules:
       - ifuse
       - iotop-c
       #- libddcutil-devel
+      - libappindicator
       - libimobiledevice
       - monitor-edid
       #- nautilus-dropbox
@@ -161,6 +162,7 @@ modules:
       - 3733  # tiling-assistant
       #- 7603  # advanced-weather-companion
       - 8261  # simpleweather
+      - 2645  # brightness-control-using-ddcutil
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
