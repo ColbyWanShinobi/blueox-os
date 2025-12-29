@@ -22,12 +22,12 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - plasma.yml
+          #- plasma.yml
           #- gnome-recipe.yml
           #- kde-nvidia-recipe.yml
           #- gnome-nvidia-recipe.yml
           # - redux.yml
-          #- blueox.yml
+          - blueox.yml
           #- blueox-41.yml
     steps:
        # the build is fully handled by the reusable github action
