@@ -51,6 +51,7 @@ modules:
       - python3-gpg
       - qdirstat
       - rocminfo
+      - strace
       - v4l-utils
       - vkBasalt
       - wayland-utils
