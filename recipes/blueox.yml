@@ -48,6 +48,7 @@ modules:
       - libappindicator
       - libappindicator-gtk3
       - libimobiledevice
+      - libportal-gtk3
       - monitor-edid
       #- nautilus-dropbox
       - nethogs

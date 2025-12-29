@@ -42,6 +42,7 @@ modules:
       #- libddcutil-devel
       - libappindicator
       - libimobiledevice
+      - libportal-gtk3
       - monitor-edid
       - kvantum
       - nethogs
