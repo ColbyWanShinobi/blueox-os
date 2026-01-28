@@ -28,6 +28,7 @@ modules:
       #- cmake
       - coolercontrol
       - ddcutil
+      - dolphin-plugins
       - edid-decode
       #- faugus-launcher
       #- gcc-c++
