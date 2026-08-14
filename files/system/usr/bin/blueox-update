@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Move this system to the newest signed BlueOx Redux image.
+set -Eeuo pipefail
+
+readonly IMAGE_REFERENCE='ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:latest'
+
+usage() {
+  cat <<'EOF'
+Usage: blueox-update [--reboot]
+
+Rebase to the newest signed BlueOx OS image published on the latest channel.
+Without --reboot, reboot manually after a new deployment is staged.
+EOF
+}
+
+reboot_after_update=false
+case "${1:-}" in
+  '')
+    ;;
+  --reboot)
+    reboot_after_update=true
+    ;;
+  -h|--help)
+    usage
+    exit 0
+    ;;
+  *)
+    printf 'error: unknown option: %s\n' "$1" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+
+if (( EUID != 0 )); then
+  exec sudo -- "$0" "$@"
+fi
+
+printf 'Checking for the newest signed BlueOx OS image...\n'
+rpm-ostree rebase "$IMAGE_REFERENCE"
+
+if [[ "$reboot_after_update" == true ]]; then
+  systemctl reboot
+fi
+
+printf '\nUpdate staged. Reboot to boot the new deployment.\n'

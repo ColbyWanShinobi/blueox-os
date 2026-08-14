@@ -6,33 +6,42 @@ BlueOx OS is a personal Fedora Atomic desktop image built with [BlueBuild](https
 
 ## Use the released image
 
-The published image is:
+The Redux workflow publishes these equivalent tags:
 
 ```text
+ghcr.io/colbywanshinobi/blueox-os:latest
 ghcr.io/colbywanshinobi/blueox-os:redux
 ```
 
-Images are signed with this repository's [`cosign.pub`](./cosign.pub). For a first install from another Fedora Atomic or Universal Blue image, bootstrap the BlueOx signing policy with the unsigned transport, reboot, then switch to the signed transport:
+Use `:latest` for the normal moving release channel; `:redux` is the explicit image-flavor tag. Images are signed with this repository's [`cosign.pub`](./cosign.pub). For a first install from another Fedora Atomic or Universal Blue image, bootstrap the BlueOx signing policy with the unsigned transport, reboot, then switch to the signed transport:
 
 ```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:redux
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:latest
 systemctl reboot
 ```
 
 ```bash
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:redux
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:latest
 systemctl reboot
 ```
 
 Afterward, use the system's normal `rpm-ostree upgrade` process for updates. To verify an image separately:
 
 ```bash
-cosign verify --key cosign.pub ghcr.io/colbywanshinobi/blueox-os:redux
+cosign verify --key cosign.pub ghcr.io/colbywanshinobi/blueox-os:latest
+```
+
+The image also includes `blueox-update`, which explicitly moves the system to the newest signed `:latest` image and stages it for the next boot:
+
+```bash
+blueox-update
+# or stage and reboot immediately
+blueox-update --reboot
 ```
 
 ## Installer ISO and releases
 
-The signed OCI image is the continuous release artifact. The **Build Redux image** workflow validates pull requests and publishes `:redux` from default-branch pushes and the daily schedule.
+The signed OCI image is the continuous release artifact. The **Build Redux image** workflow validates pull requests and publishes `:latest` and `:redux` from default-branch pushes and the daily schedule.
 
 To create installer media, open **Actions → Build Redux installer ISO → Run workflow**. Select the published image tag—normally `redux`.
 
@@ -69,7 +78,7 @@ The script installs BlueBuild if it is missing, using the official installer ima
 
 | Recipe | Base image | Intended tag |
 | --- | --- | --- |
-| `redux.yml` | `ghcr.io/ublue-os/silverblue-main:44` | `redux` |
+| `redux.yml` | `ghcr.io/ublue-os/silverblue-main:44` | `latest`, `redux` |
 | `blueox.yml` | `ghcr.io/ublue-os/bazzite-gnome:stable-43` | `gnome` |
 | `plasma.yml` | `ghcr.io/ublue-os/bazzite:stable-43` | `plasma` |
 
