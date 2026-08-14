@@ -62,17 +62,26 @@ The ISO is generated from the published OCI image using Bootc Image Builder and 
 `build-local.sh` uses the same BlueBuild inputs as CI. With no recipe specified it builds `redux.yml`; pass a recipe name/path to build another recipe, or `--all` to build every local recipe.
 
 ```bash
-# Build Redux locally without publishing.
-./build-local.sh --no-push
+# Build Redux locally. This is unsigned and does not publish by default.
+./build-local.sh
 
 # Build a different recipe locally.
-./build-local.sh --no-push blueox.yml
+./build-local.sh blueox.yml
 
-# Publish Redux to GHCR using a token that has package write access.
-REGISTRY_TOKEN="$(gh auth token)" ./build-local.sh
+# Publish and sign Redux using a token that has package write access.
+REGISTRY_TOKEN="$(gh auth token)" ./build-local.sh --push --signed
 ```
 
-The script installs BlueBuild if it is missing, using the official installer image. It writes complete bootstrap and build output to `.logs/build-local-*.log` while still printing it to the terminal. Set a fixed log path with `--log PATH` or `BUILD_LOG=PATH`. The default signing key is `~/.ssh/blueox-os/cosign.key`; override it with `--key` or `COSIGN_KEY_PATH`. Run `./build-local.sh --help` for all options.
+The script installs BlueBuild if it is missing, using the official installer image. It writes complete bootstrap and build output to `.logs/build-local-*.log` while still printing it to the terminal. Set a fixed log path with `--log PATH` or `BUILD_LOG=PATH`. When using `--signed`, the default signing key is `~/.ssh/blueox-os/cosign.key`; override it with `--key` or `COSIGN_KEY_PATH`. `build.sh`, `build-redux.sh`, `redux.sh`, and `build-plasma.sh` route through this same local workflow. Run `./build-local.sh --help` for all options.
+
+### Local installer ISOs
+
+There are two ISO scripts, depending on the image source:
+
+- `./build-github-iso.sh` mirrors the GitHub ISO workflow. It uses rootful Podman to produce a Btrfs Anaconda ISO from the published `ghcr.io/<GitHub-owner>/blueox-os:redux` image. Use `--tag latest` or `--image IMAGE_REFERENCE` to choose another published image. Output goes to `output/iso-<tag>-<timestamp>/` and logs to `.logs/build-github-iso-*.log`. It uses host networking by default to avoid local Podman DNS/CNI problems; override that with `--network MODE` or `BIB_NETWORK=MODE`.
+- `./build-local-iso.sh` builds `recipes/redux.yml` locally as an OCI archive, then passes that exact archive to a rootful Podman installer container. It does not push an image and installs BlueBuild automatically if needed. Rootful Podman is necessary because Lorax mounts `devtmpfs` while creating boot media. This explicit two-stage flow also works around BlueBuild 0.9.37’s local ISO archive filename mismatch. Pass another recipe, `--variant`, or `--output-dir` as needed. Output goes to `output/local-iso-<timestamp>/` and logs to `.logs/build-local-iso-*.log`.
+
+Both scripts write `SHA256SUMS` beside their ISO output. Run either script with `--help` for its full options.
 
 ## Recipes
 

@@ -2,8 +2,8 @@
 # Build this repository locally using the same BlueBuild inputs as
 # .github/workflows/build.yml (blue-build/github-action@v1.10).
 #
-# By default this builds Redux and pushes a signed image.
-# Use --no-push for a local-only build.
+# By default this builds Redux locally without a registry push or signing.
+# Use --push --signed to mirror the publishing/signing portion of CI.
 set -Eeuo pipefail
 IFS=$'\n\t'
 
@@ -31,8 +31,10 @@ Options:
   --all                 Build all local recipes (plasma.yml, blueox.yml, redux.yml)
   --no-install-bluebuild  Do not install BlueBuild if it is missing
   --log PATH            Append build output to PATH (default: .logs/build-local-*.log)
-  --no-push             Build locally without pushing to a registry
-  --unsigned            Do not require or supply a cosign private key
+  --push                Push the built image to a registry
+  --no-push             Build locally without pushing to a registry (default)
+  --signed              Require and supply a cosign private key
+  --unsigned            Do not require or supply a cosign private key (default)
   --registry REGISTRY   Registry to push to (default: ghcr.io)
   --namespace NAME      Registry namespace (default: Git remote owner, then user)
   --username NAME       Registry username (default: namespace)
@@ -46,9 +48,9 @@ Environment overrides:
   options, and BLUEBUILD_INSTALLER_IMAGE.
 
 Examples:
-  ${SCRIPT_NAME} --no-push
-  ${SCRIPT_NAME} --no-push blueox.yml
-  REGISTRY_TOKEN="\$(gh auth token)" ${SCRIPT_NAME}
+  ${SCRIPT_NAME}
+  ${SCRIPT_NAME} blueox.yml
+  REGISTRY_TOKEN="\$(gh auth token)" ${SCRIPT_NAME} --push --signed
 EOF
 }
 
@@ -56,8 +58,8 @@ recipes=()
 build_opts=()
 install_bluebuild=true
 log_file="${BUILD_LOG:-}"
-push="${BB_BUILD_PUSH:-true}"
-unsigned=false
+push="${BB_BUILD_PUSH:-false}"
+unsigned=true
 registry="${REGISTRY:-ghcr.io}"
 namespace="${NAMESPACE:-}"
 username="${REGISTRY_USERNAME:-}"
@@ -83,8 +85,16 @@ while (($#)); do
       log_file="$2"
       shift 2
       ;;
+    --push)
+      push=true
+      shift
+      ;;
     --no-push)
       push=false
+      shift
+      ;;
+    --signed)
+      unsigned=false
       shift
       ;;
     --unsigned)

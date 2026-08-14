@@ -4,3 +4,5 @@ cosign.private
 /Containerfile.*
 /.bluebuild-scripts_*
 /.logs/
+/output/*
+/.linux-vm/*

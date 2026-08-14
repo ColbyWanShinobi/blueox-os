@@ -1,3 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-bluebuild build ./recipes/redux.yml
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+exec "$repo_root/build-local.sh" --no-push --unsigned redux.yml
