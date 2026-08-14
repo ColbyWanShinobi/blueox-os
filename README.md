@@ -4,6 +4,20 @@ See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup i
 
 After setup, it is recommended you update this README to describe your custom image.
 
+## Local builds
+
+`build-local.sh` mirrors the inputs used by `.github/workflows/build.yml` and, with no arguments, builds `redux.yml`. Name another recipe explicitly, or use `--all`, to build additional images. GitHub Actions pushes signed images by default, so the script does too; provide a registry token and the cosign key, or use `--no-push` for a local-only build.
+
+```bash
+# Build Redux locally without publishing it.
+./build-local.sh --no-push
+
+# Mirror the CI publish behavior (requires a token with GHCR package write access).
+REGISTRY_TOKEN="$(gh auth token)" ./build-local.sh --recipe blueox.yml
+```
+
+The script writes all bootstrap and build output to a timestamped file under `.logs/` (which is ignored by Git) while continuing to show it in the terminal. Use `--log PATH` or `BUILD_LOG=PATH` to choose the file. It installs BlueBuild automatically if needed, using the same `v0.9` CLI installer series as the current GitHub action. It uses Docker when available (matching CI’s Buildx path), otherwise Podman. The installer writes to `/usr/local/bin` and may request `sudo`; use `--no-install-bluebuild` to forbid this. The default signing key is `~/.ssh/blueox-os/cosign.key`. Override it with `--key` or `COSIGN_KEY_PATH`; see `./build-local.sh --help` for all options.
+
 ## Unverified
 ```
 rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:gnome

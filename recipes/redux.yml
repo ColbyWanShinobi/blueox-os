@@ -7,7 +7,7 @@ description: Silverblue with personal customizations
 
 # the base image to build on top of (FROM) and the version tag to use
 base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
+image-version: 44 # latest is also supported if you want new updates ASAP
 alt-tags:
   - redux
 
@@ -26,33 +26,55 @@ modules:
       # - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
       - acpica-tools
+      - cargo
       - cmake
+      - conda
       - coolercontrol
       - ddcutil
+      - edid-decode
       - faugus-launcher
-      - gnome-session-xsession
+      - gcc
+      - gcc-c++
       - gnome-tweaks
       - gparted
       - gtkpod
       - gvfs
+      - hplip-common
+      - hplip-gui
+      - hplip-libs
       - htop
       - ifuse
       - iotop-c
+      - libappindicator
+      - libappindicator-gtk3
       - libimobiledevice
+      - libportal-gtk3
+      - monitor-edid
+      - make
       - nethogs
+      - openssl-devel
       - podman-docker
       - podman-compose
       - powertop
       - python3-gpg
+      - pkgconf-pkg-config
       - qdirstat
+      - qt6-qtbase
+      - qt6-qtbase-common
+      - qt6-qtbase-gui
+      - qt6-qtmultimedia
       - rocm-hip
       - rocm-opencl
       - rocm-smi
       - rocminfo
+      - rust
+      - strace
       - v4l-utils
-      # - wine
+      - vkBasalt
+      - wayland-utils
+      - wine
       - wtype
-      # - kernel-devel
+      - kernel-devel
     # remove:
       # example: removing firefox (in favor of the flatpak)
       # "firefox" is the main package, "firefox-langpacks" is a dependency
@@ -64,53 +86,87 @@ modules:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
       #- install-msi-ec.sh
+      - install-dropbox.sh
       - install-vscode.sh
+      - install-vscodium.sh
       - install-hardinfo2.sh
-      # - install-cyberpower-ups.sh
+      - install-cyberpower-ups.sh
+      - install-mcontrolcenter.sh
 
   - type: default-flatpaks
-    notify: true # Send notification after install/uninstall is finished (true/false)
-    system:
-      # If no repo information is specified, Flathub will be used by default
-      repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
-      repo-name: flathub
-      repo-title: "Flathub (system-wide)" # Optional; this sets the remote's user-facing name in graphical frontends like GNOME Software
-      install:
-        - ca.desrt.dconf-editor
-        - com.core447.StreamController
-        - com.dec05eba.gpu_screen_recorder
-        - com.discordapp.Discord
-        - com.feaneron.Boatswain
-        - com.github.childishgiant.mixer
-        - com.github.rajsolai.textsnatcher
-        - com.github.tchx84.Flatseal
-        - com.gitlab.davem.ClamTk
-        - com.mattjakeman.ExtensionManager
-        - com.microsoft.Edge
-        - com.slack.Slack
-        - com.spotify.Client
-        - eu.betterbird.Betterbird
-        - io.github.arunsivaramanneo.GPUViewer
-        - io.github.fastrizwaan.WineZGUI
-        - io.github.flattool.Warehouse
-        - io.github.pwr_solaar.solaar
-        - io.github.ungoogled_software.ungoogled_chromium
-        - it.mijorus.gearlever
-        - it.mijorus.whisper
-        - org.gnome.Boxes
-        - org.gnome.Boxes.Extension.OsinfoDb
-        - org.kde.haruna
-        - org.localsend.localsend_app
-        - org.pulseaudio.pavucontrol
-        - org.qbittorrent.qBittorrent
-        - us.zoom.Zoom
-        - xyz.tytanium.DoorKnocker
-        # - one.ablaze.floorp//lightning # This is an example of flatpak which has multiple branches in selection (flatpak//branch).
-      # Flatpak runtimes are not supported (like org.winehq.Wine//stable-23.08),
-      # only normal flatpak applications are (like Floorp Lightning web browser in this example).
-      # Installing different branches of the same Flatpak is not supported.
-      remove:
-        - org.mozilla.firefox
+    configurations:
+      - notify: true # Send notification after install/uninstall is finished (true/false)
+        scope: system
+        repo:
+          url: https://dl.flathub.org/repo/flathub.flatpakrepo
+          name: flathub
+          title: "Flathub (system-wide)"
+        install:
+          - ca.desrt.dconf-editor
+          - com.brave.Browser
+          - com.core447.StreamController
+          - com.dec05eba.gpu_screen_recorder
+          - com.discordapp.Discord
+          - com.feaneron.Boatswain
+          - com.github.childishgiant.mixer
+          - com.github.rajsolai.textsnatcher
+          - com.github.tchx84.Flatseal
+          - com.gitlab.davem.ClamTk
+          - com.heroicgameslauncher.hgl
+          - com.mattjakeman.ExtensionManager
+          - com.microsoft.Edge
+          - com.ranfdev.DistroShelf
+          - com.slack.Slack
+          - com.spotify.Client
+          - com.valvesoftware.Steam
+          - eu.betterbird.Betterbird
+          - io.github.arunsivaramanneo.GPUViewer
+          - io.github.fastrizwaan.WineZGUI
+          - io.github.flattool.Warehouse
+          - io.github.pwr_solaar.solaar
+          - io.github.ungoogled_software.ungoogled_chromium
+          - io.missioncenter.MissionCenter
+          - it.mijorus.gearlever
+          - it.mijorus.whisper
+          - org.gnome.Boxes
+          - org.gnome.Boxes.Extension.OsinfoDb
+          - org.kde.haruna
+          - org.localsend.localsend_app
+          - org.pulseaudio.pavucontrol
+          - org.qbittorrent.qBittorrent
+          - us.zoom.Zoom
+          - xyz.tytanium.DoorKnocker
+        remove:
+          - org.mozilla.firefox
+
+  - type: gnome-extensions
+    install:
+      - 1386  # notification-counter
+      - 1460  # vitals
+      - 19    # user-themes
+      - 258   # notifications-alert-on-user-menu
+      - 2929  # battery-time-percentage-compact
+      - 307   # dash-to-dock
+      - 3795  # notification-timeout
+      - 4099  # no-overview
+      - 4105  # notification-banner-position
+      - 4228  # wireless-hid
+      - 4548  # tactile
+      - 615   # appindicator-support
+      - 6242  # emoji-copy
+      #- 6278  # battery-usage-wattmeter
+      #- 6325  # control-monitor-brightness-and-volume-with-ddcutil
+      - 744   # hide-activities-button
+      - 6000  # quick-settings-audio-devices-renamer
+      - 1262  # bing-wallpaper-changer
+      - 6679  # power-profile-indicator
+      - 6583  # auto-power-profile
+      - 5362  # wireguard-vpn-extension
+      - 5964  # quick-settings-audio-devices-hider
+      - 1183  # utcclock
+      - 3733  # tiling-assistant
+      - 8261  # simpleweather
+      - 2645  # brightness-control-using-ddcutil
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
