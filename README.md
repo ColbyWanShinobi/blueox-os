@@ -41,7 +41,7 @@ blueox-update --reboot
 
 ## Installer ISO and releases
 
-The signed OCI image is the continuous release artifact. The **Build Redux image** workflow validates pull requests and publishes `:latest` and `:redux` from default-branch pushes and the daily schedule.
+The signed OCI image is the continuous release artifact. The **Build Redux image** workflow validates pull requests and publishes `:latest` and `:redux` from default-branch pushes and the daily schedule. Push and pull-request builds run only when a Redux recipe input changes (the recipe, signing key, Redux system files, or a script used by Redux); the daily run still captures upstream base-image updates.
 
 To create installer media, open **Actions → Build Redux installer ISO → Run workflow**. Select the published image tag—normally `redux`.
 
@@ -55,7 +55,7 @@ Verify a downloaded ISO before flashing it:
 sha256sum -c SHA256SUMS
 ```
 
-The ISO is generated from the published OCI image using Bootc Image Builder. The GHCR package must remain public so the installer can retrieve it.
+The ISO is generated from the published OCI image using Bootc Image Builder and installs a Btrfs root filesystem. The GHCR package must remain public so the installer can retrieve it.
 
 ## Local builds
 

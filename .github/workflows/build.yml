@@ -4,10 +4,30 @@ on:
     - cron: "00 06 * * *" # build at 06:00 UTC every day
                           # (20 minutes after last ublue images start building)
   push:
-    paths-ignore: # don't rebuild if only documentation has changed
-      - "**.md"
+    # These are the repository inputs that affect the published Redux image.
+    # The daily schedule still catches updates to the upstream base image.
+    paths:
+      - recipes/redux.yml
+      - cosign.pub
+      - files/system/**
+      - files/scripts/install-cyberpower-ups.sh
+      - files/scripts/install-dropbox.sh
+      - files/scripts/install-hardinfo2.sh
+      - files/scripts/install-mcontrolcenter.sh
+      - files/scripts/install-vscode.sh
+      - files/scripts/install-vscodium.sh
 
   pull_request:
+    paths:
+      - recipes/redux.yml
+      - cosign.pub
+      - files/system/**
+      - files/scripts/install-cyberpower-ups.sh
+      - files/scripts/install-dropbox.sh
+      - files/scripts/install-hardinfo2.sh
+      - files/scripts/install-mcontrolcenter.sh
+      - files/scripts/install-vscode.sh
+      - files/scripts/install-vscodium.sh
   workflow_dispatch: # allow manually triggering builds
 
 concurrency:

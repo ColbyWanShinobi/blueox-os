@@ -63,6 +63,7 @@ jobs:
           config-file: ${{ runner.temp }}/iso.toml
           image: ${{ env.IMAGE_REF }}
           chown: ${{ env.UID }}:${{ env.GID }}
+          rootfs: btrfs
           types: anaconda-iso
           additional-args: --use-librepo=True
 
