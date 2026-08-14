@@ -1,96 +1,76 @@
-# blueox-os &nbsp; [![bluebuild build badge](https://github.com/colbywanshinobi/blueox-os/actions/workflows/build.yml/badge.svg)](https://github.com/colbywanshinobi/blueox-os/actions/workflows/build.yml)
+# BlueOx OS
 
-See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup instructions for setting up your own repository based on this template.
+[![Build Redux image](https://github.com/colbywanshinobi/blueox-os/actions/workflows/build.yml/badge.svg)](https://github.com/colbywanshinobi/blueox-os/actions/workflows/build.yml)
 
-After setup, it is recommended you update this README to describe your custom image.
+BlueOx OS is a personal Fedora Atomic desktop image built with [BlueBuild](https://blue-build.org/) and published to GitHub Container Registry (GHCR). The current release image is built from `recipes/redux.yml`, based on `ghcr.io/ublue-os/silverblue-main`.
+
+## Use the released image
+
+The published image is:
+
+```text
+ghcr.io/colbywanshinobi/blueox-os:redux
+```
+
+Images are signed with this repository's [`cosign.pub`](./cosign.pub). For a first install from another Fedora Atomic or Universal Blue image, bootstrap the BlueOx signing policy with the unsigned transport, reboot, then switch to the signed transport:
+
+```bash
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:redux
+systemctl reboot
+```
+
+```bash
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:redux
+systemctl reboot
+```
+
+Afterward, use the system's normal `rpm-ostree upgrade` process for updates. To verify an image separately:
+
+```bash
+cosign verify --key cosign.pub ghcr.io/colbywanshinobi/blueox-os:redux
+```
+
+## Installer ISO and releases
+
+The signed OCI image is the continuous release artifact. The **Build Redux image** workflow validates pull requests and publishes `:redux` from default-branch pushes and the daily schedule.
+
+To create installer media, open **Actions → Build Redux installer ISO → Run workflow**. Select the published image tag—normally `redux`.
+
+- Every ISO run uploads an Anaconda installer ISO and `SHA256SUMS` as a 14-day workflow artifact.
+- Provide a `release_tag` such as `2026.08.13` to also create a GitHub Release with both files attached.
+- The Release notes link to the exact GHCR image used by that ISO. OCI images themselves stay in GitHub Packages, not as GitHub Release assets.
+
+Verify a downloaded ISO before flashing it:
+
+```bash
+sha256sum -c SHA256SUMS
+```
+
+The ISO is generated from the published OCI image using Bootc Image Builder. The GHCR package must remain public so the installer can retrieve it.
 
 ## Local builds
 
-`build-local.sh` mirrors the inputs used by `.github/workflows/build.yml` and, with no arguments, builds `redux.yml`. Name another recipe explicitly, or use `--all`, to build additional images. GitHub Actions pushes signed images by default, so the script does too; provide a registry token and the cosign key, or use `--no-push` for a local-only build.
+`build-local.sh` uses the same BlueBuild inputs as CI. With no recipe specified it builds `redux.yml`; pass a recipe name/path to build another recipe, or `--all` to build every local recipe.
 
 ```bash
-# Build Redux locally without publishing it.
+# Build Redux locally without publishing.
 ./build-local.sh --no-push
 
-# Mirror the CI publish behavior (requires a token with GHCR package write access).
-REGISTRY_TOKEN="$(gh auth token)" ./build-local.sh --recipe blueox.yml
+# Build a different recipe locally.
+./build-local.sh --no-push blueox.yml
+
+# Publish Redux to GHCR using a token that has package write access.
+REGISTRY_TOKEN="$(gh auth token)" ./build-local.sh
 ```
 
-The script writes all bootstrap and build output to a timestamped file under `.logs/` (which is ignored by Git) while continuing to show it in the terminal. Use `--log PATH` or `BUILD_LOG=PATH` to choose the file. It installs BlueBuild automatically if needed, using the same `v0.9` CLI installer series as the current GitHub action. It uses Docker when available (matching CI’s Buildx path), otherwise Podman. The installer writes to `/usr/local/bin` and may request `sudo`; use `--no-install-bluebuild` to forbid this. The default signing key is `~/.ssh/blueox-os/cosign.key`. Override it with `--key` or `COSIGN_KEY_PATH`; see `./build-local.sh --help` for all options.
+The script installs BlueBuild if it is missing, using the official installer image. It writes complete bootstrap and build output to `.logs/build-local-*.log` while still printing it to the terminal. Set a fixed log path with `--log PATH` or `BUILD_LOG=PATH`. The default signing key is `~/.ssh/blueox-os/cosign.key`; override it with `--key` or `COSIGN_KEY_PATH`. Run `./build-local.sh --help` for all options.
 
-## Unverified
-```
-rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:gnome
-```
+## Recipes
 
-```
-rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:gnome-nvidia
-```
+| Recipe | Base image | Intended tag |
+| --- | --- | --- |
+| `redux.yml` | `ghcr.io/ublue-os/silverblue-main:44` | `redux` |
+| `blueox.yml` | `ghcr.io/ublue-os/bazzite-gnome:stable-43` | `gnome` |
+| `plasma.yml` | `ghcr.io/ublue-os/bazzite:stable-43` | `plasma` |
 
-```
-rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:kde
-```
-
-```
-rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:kde-nvidia
-```
-
-## Verified
-```
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:gnome
-```
-
-```
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:gnome-nvidia
-```
-
-```
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:kde
-```
-
-```
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:kde-nvidia
-```
-
-## Installation
-
-> **Warning**
-> [This is an experimental feature](https://www.fedoraproject.org/wiki/Changes/OstreeNativeContainerStable), try at your own discretion.
-
-To rebase an existing atomic Fedora installation to the latest build:
-
-- First rebase to the unsigned image, to get the proper signing keys and policies installed:
-  ```
-  rpm-ostree rebase ostree-unverified-registry:ghcr.io/colbywanshinobi/blueox-os:latest
-  ```
-- Reboot to complete the rebase:
-  ```
-  systemctl reboot
-  ```
-- Then rebase to the signed image, like so:
-  ```
-  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:latest
-  ```
-- Reboot again to complete the installation
-  ```
-  systemctl reboot
-  ```
-
-The `latest` tag will automatically point to the latest build. That build will still always use the Fedora version specified in `recipe.yml`, so you won't get accidentally updated to the next major version.
-
-## ISO
-
-If build on Fedora Atomic, you can generate an offline ISO with the instructions available [here](https://blue-build.org/learn/universal-blue/#fresh-install-from-an-iso). These ISOs cannot unfortunately be distributed on GitHub for free due to large sizes, so for public projects something else has to be used for hosting.
-
-## Verification
-
-These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:
-
-```bash
-cosign verify --key cosign.pub ghcr.io/colbywanshinobi/blueox-os
-```
-## ublue Image Layer Order
-config - udev rules
-akmods - kernel mods
-main-kernel - ???
-main - shared by most images
+Only Redux is currently published by the GitHub Actions workflow. The other recipes are available for explicit local builds.

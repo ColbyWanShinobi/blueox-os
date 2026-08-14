@@ -1,4 +1,4 @@
-name: bluebuild
+name: Build Redux image
 on:
   schedule:
     - cron: "00 06 * * *" # build at 06:00 UTC every day
@@ -9,9 +9,13 @@ on:
 
   pull_request:
   workflow_dispatch: # allow manually triggering builds
+
+concurrency:
+  group: build-redux-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   bluebuild:
-    name: Build Custom Image
+    name: Build and publish Redux image
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,33 +43,25 @@ jobs:
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
+          # PRs validate the recipe without publishing a package or release tag.
+          push: ${{ github.event_name != 'pull_request' }}
 
           # enabled by default, disable if your image is small and you want faster builds
           maximize_build_space: true
-      - name: Display Built Images
+      - name: Publish build summary
         run: |
-          echo "=> Finished building:"
-          # BlueBuild typically creates these tags based on the registry and namespace
-          REGISTRY="ghcr.io"
-          NAMESPACE="${{ github.repository_owner }}"
-          NAMESPACE=$(echo "$NAMESPACE" | tr '[:upper:]' '[:lower:]')
-          REPO_NAME="blueox-os"
-          DATE_TAG=$(date +%Y%m%d)
-          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
-          FEDORA_VERSION="43"
-
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:latest"
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}"
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${FEDORA_VERSION}"
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-${FEDORA_VERSION}"
-          echo "	- ${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-${FEDORA_VERSION}"
-          echo ""
-          echo "=> Available rebase commands:"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:latest"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${FEDORA_VERSION}"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${DATE_TAG}-${FEDORA_VERSION}"
-          echo "	rpm-ostree rebase ostree-image-signed:docker://${REGISTRY}/${NAMESPACE}/${REPO_NAME}:${SHORT_SHA}-${FEDORA_VERSION}"
-      - name: Debug outputs
-        run: |
-          echo "${{ toJson(steps.build-image.outputs) }}"
+          set -euo pipefail
+          image="ghcr.io/${{ github.repository_owner }}/blueox-os:redux"
+          image="${image,,}"
+          {
+            echo "## Redux image"
+            if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+              echo "Recipe validation build completed; no image was published for this pull request."
+            else
+              echo "Published signed image: \`$image\`"
+              echo
+              echo "\`rpm-ostree rebase ostree-image-signed:docker://$image\`"
+              echo
+              echo "Use the **Build Redux installer ISO** workflow to create install media from this tag."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
