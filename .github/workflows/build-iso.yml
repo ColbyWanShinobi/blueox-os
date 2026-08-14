@@ -68,11 +68,22 @@ jobs:
           additional-args: --use-librepo=True
 
       - name: Create checksums
+        id: checksum
         shell: bash
+        env:
+          ISO_PATH: ${{ steps.build.outputs.anaconda-iso-output-path }}
+          OUTPUT_DIRECTORY: ${{ steps.build.outputs.output-directory }}
         run: |
           set -euo pipefail
-          cd "${{ steps.build.outputs.output-directory }}"
-          sha256sum *.iso > SHA256SUMS
+          if [[ -z "$ISO_PATH" || ! -f "$ISO_PATH" ]]; then
+            echo "::error::The ISO builder did not report a readable ISO at '$ISO_PATH'."
+            find "$OUTPUT_DIRECTORY" -maxdepth 4 -type f -printf '%p\n' || true
+            exit 1
+          fi
+
+          iso_name="$(basename "$ISO_PATH")"
+          sha256sum "$ISO_PATH" | sed "s|  .*|  $iso_name|" > "$OUTPUT_DIRECTORY/SHA256SUMS"
+          echo "iso_path=$ISO_PATH" >> "$GITHUB_OUTPUT"
 
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
@@ -89,6 +100,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.release_tag }}
           OUTPUT_DIRECTORY: ${{ steps.build.outputs.output-directory }}
+          ISO_PATH: ${{ steps.checksum.outputs.iso_path }}
           PACKAGE_URL: https://github.com/${{ github.repository }}/pkgs/container/blueox-os
         shell: bash
         run: |
@@ -99,6 +111,6 @@ jobs:
           The ISO and \`SHA256SUMS\` below are release assets. Verify the download with \`sha256sum -c SHA256SUMS\` before flashing it. The installed system follows the referenced signed container image; its package page is linked above.
           EOF
           )"
-          gh release create "$RELEASE_TAG" "$OUTPUT_DIRECTORY"/*.iso "$OUTPUT_DIRECTORY"/SHA256SUMS \
+          gh release create "$RELEASE_TAG" "$ISO_PATH" "$OUTPUT_DIRECTORY"/SHA256SUMS \
             --title "BlueOx OS ${RELEASE_TAG}" \
             --notes "$release_notes"
