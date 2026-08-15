@@ -72,6 +72,7 @@ modules:
       - make
       - mtools
       - nethogs
+      - nodejs
       - ntfs-3g
       - openssl-devel
       - podman-docker
@@ -108,6 +109,7 @@ modules:
       - strace
       - sudo
       - syncthing
+      - systemd-rpm-macros
       - tmux
       - tree
       - unzip
@@ -150,6 +152,7 @@ modules:
       - install-hardinfo2.sh
       - install-cyberpower-ups.sh
       - install-mcontrolcenter.sh
+      - install-msi-mysticlight.sh
       - install-obsbot-camera-control.sh
 
   - type: default-flatpaks

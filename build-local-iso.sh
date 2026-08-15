@@ -11,6 +11,27 @@ die() {
   exit 1
 }
 
+sudo_keepalive_pid=""
+
+stop_sudo_keepalive() {
+  [[ -n "$sudo_keepalive_pid" ]] || return 0
+  kill "$sudo_keepalive_pid" 2>/dev/null || true
+  wait "$sudo_keepalive_pid" 2>/dev/null || true
+}
+
+start_sudo_keepalive() {
+  # Refresh the ticket from the invoking terminal once per minute.  `-n`
+  # prevents an orphaned background process from ever prompting for a password.
+  (
+    while :; do
+      sleep 60
+      sudo -n -v || exit
+    done
+  ) &
+  sudo_keepalive_pid=$!
+  trap stop_sudo_keepalive EXIT
+}
+
 usage() {
   cat <<EOF
 Usage: ${SCRIPT_NAME} [options] [recipe]
@@ -104,9 +125,15 @@ fi
 
 command -v podman >/dev/null 2>&1 || die "Podman is required for the local ISO installer container"
 command -v sudo >/dev/null 2>&1 || die "sudo is required for the Lorax installer stage"
+
+# Authenticate before the potentially long rootless image build, then keep the
+# credential alive so the unattended rootful installer stage cannot time out.
+printf 'Sudo will prompt once now and remain authenticated for this build.\n'
+sudo -v
+start_sudo_keepalive
+
 if ! command -v bluebuild >/dev/null 2>&1; then
   printf 'BlueBuild is not installed; installing it with the official installer image...\n'
-  sudo -v
   podman run --pull always --rm ghcr.io/blue-build/cli:v0.9-installer | sudo bash \
     || die "BlueBuild installation failed"
 fi
@@ -144,7 +171,7 @@ printf '  Variant: %s\n' "$variant"
 printf '  Fedora:  %s\n' "$image_version"
 printf '  Output:  %s\n' "$output_dir"
 printf '  Log:     %s\n' "$log_file"
-printf 'Sudo may prompt once for the privileged Lorax installer stage.\n'
+printf 'Sudo authentication will be kept alive until the build exits.\n'
 
 # This is intentionally a non-pushing build. The OCI archive remains beside
 # the ISO so the exact locally tested image is available for inspection.
@@ -157,7 +184,6 @@ mapfile -t archive_files < <(find "$archive_dir" -maxdepth 1 -type f -name '*.gz
 archive_file="${archive_files[0]}"
 
 printf '  OCI archive: %s\n' "$archive_file"
-sudo -v
 sudo podman pull "$installer_image"
 sudo podman run --rm --privileged --network host \
   --volume "$output_dir:/build-container-installer/build:Z" \
