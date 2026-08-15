@@ -74,6 +74,25 @@ REGISTRY_TOKEN="$(gh auth token)" ./build-local.sh --push --signed
 
 The script installs BlueBuild if it is missing, using the official installer image. It writes complete bootstrap and build output to `.logs/build-local-*.log` while still printing it to the terminal. Set a fixed log path with `--log PATH` or `BUILD_LOG=PATH`. When using `--signed`, the default signing key is `~/.ssh/blueox-os/cosign.key`; override it with `--key` or `COSIGN_KEY_PATH`. `build.sh`, `build-redux.sh`, `redux.sh`, and `build-plasma.sh` route through this same local workflow. Run `./build-local.sh --help` for all options.
 
+### Root scripts
+
+The root scripts are grouped by purpose:
+
+| Script | Purpose |
+| --- | --- |
+| `./build-local.sh` | Main local BlueBuild entrypoint. Builds `recipes/redux.yml` by default, accepts other recipe names or paths, can build `--all`, optionally pushes to a registry, optionally signs with cosign, logs to `.logs/`, and installs BlueBuild if missing. |
+| `./build-redux.sh` | Convenience wrapper for `./build-local.sh --no-push --unsigned redux.yml`. |
+| `./redux.sh` | Duplicate convenience wrapper for `./build-local.sh --no-push --unsigned redux.yml`. |
+| `./build.sh` | Convenience wrapper for `./build-local.sh --no-push --unsigned blueox.yml`. This builds the older/non-default `blueox.yml` recipe, not the current Redux release image. |
+| `./build-plasma.sh` | Convenience wrapper for `./build-local.sh --no-push --unsigned plasma.yml`. |
+| `./build-github-iso.sh` | Builds an installer ISO from an already-published GHCR image, defaulting to `ghcr.io/<GitHub-owner>/blueox-os:redux`. This mirrors the GitHub Actions ISO workflow. |
+| `./build-local-iso.sh` | Builds a local recipe into an OCI archive, then turns that exact local archive into an installer ISO without pushing anything. |
+| `./validate.sh` | Installs BlueBuild if needed, then validates `recipes/redux.yml`. |
+| `./create-vm.sh` | Creates or starts a local QEMU VM, optionally booting an installer ISO. VM files live under `.linux-vm/`. |
+| `./destroy-vm.sh` | Stops and removes a QEMU VM created by `./create-vm.sh`. The shared `~/VMShare` directory is preserved. |
+
+For normal image work, use `./build-local.sh`. For installer media, use `./build-local-iso.sh` when testing a local recipe and `./build-github-iso.sh` when building from the published image. Use `./create-vm.sh` and `./destroy-vm.sh` only for local VM testing.
+
 ### Local installer ISOs
 
 There are two ISO scripts, depending on the image source:
