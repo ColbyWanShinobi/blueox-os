@@ -49,6 +49,7 @@ modules:
       - gcc-c++
       - git
       - git-delta
+      - glib2
       - gh
       - gnome-tweaks
       - gparted
@@ -76,7 +77,10 @@ modules:
       - podman-docker
       - podman-compose
       - powertop
+      - pyproject-rpm-macros
+      - python3-devel
       - python3-gpg
+      - python3-setuptools
       - pkgconf-pkg-config
       - qdirstat
       - qemu-img
@@ -96,6 +100,7 @@ modules:
       - ruby-devel
       - rubygem-bundler
       - ripgrep
+      - rpm-build
       - rsync
       - samba
       - shellcheck

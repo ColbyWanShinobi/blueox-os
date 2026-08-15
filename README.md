@@ -74,6 +74,25 @@ REGISTRY_TOKEN="$(gh auth token)" ./build-local.sh --push --signed
 
 The script installs BlueBuild if it is missing, using the official installer image. It writes complete bootstrap and build output to `.logs/build-local-*.log` while still printing it to the terminal. Set a fixed log path with `--log PATH` or `BUILD_LOG=PATH`. When using `--signed`, the default signing key is `~/.ssh/blueox-os/cosign.key`; override it with `--key` or `COSIGN_KEY_PATH`. `build.sh`, `build-redux.sh`, `redux.sh`, and `build-plasma.sh` route through this same local workflow. Run `./build-local.sh --help` for all options.
 
+### Build and stage a local self-update
+
+On an existing BlueOx install, use `self-update.sh` to build Redux from this
+checkout, push and sign it with the configured Cosign key, and stage that
+signed `:redux` image for the next boot. `rpm-ostree` verifies the signature
+against the system container policy while staging:
+
+```bash
+REGISTRY_TOKEN="$(gh auth token)" ./self-update.sh
+# or stage and reboot immediately
+REGISTRY_TOKEN="$(gh auth token)" ./self-update.sh --reboot
+```
+
+The image is built locally, but it must be pushed to a registry: Cosign image
+signatures are stored alongside the registry image, and `ostree-image-signed`
+verifies them through the system container policy. To stage an image already
+built and signed with the same key, use `./self-update.sh --no-build --image
+ghcr.io/colbywanshinobi/blueox-os:redux`.
+
 ### Root scripts
 
 The root scripts are grouped by purpose:
@@ -81,6 +100,7 @@ The root scripts are grouped by purpose:
 | Script | Purpose |
 | --- | --- |
 | `./build-local.sh` | Main local BlueBuild entrypoint. Builds `recipes/redux.yml` by default, accepts other recipe names or paths, can build `--all`, optionally pushes to a registry, optionally signs with cosign, logs to `.logs/`, and installs BlueBuild if missing. |
+| `./self-update.sh` | Builds Redux locally, pushes the signed `:redux` image, then stages it as the next deployment after signature verification. |
 | `./build-redux.sh` | Convenience wrapper for `./build-local.sh --no-push --unsigned redux.yml`. |
 | `./redux.sh` | Duplicate convenience wrapper for `./build-local.sh --no-push --unsigned redux.yml`. |
 | `./build.sh` | Convenience wrapper for `./build-local.sh --no-push --unsigned blueox.yml`. This builds the older/non-default `blueox.yml` recipe, not the current Redux release image. |
