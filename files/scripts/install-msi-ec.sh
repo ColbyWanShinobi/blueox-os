@@ -12,3 +12,10 @@ fi
 
 echo 'Installing MSI EC kernel-module packages...'
 sudo dnf install -y "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
+
+# The package produces a module named `msi_ec` (underscore), while the
+# userspace application checks for the platform device created by that module.
+# Installing an akmod alone does not request that it be loaded after boot.
+echo 'Configuring the MSI EC module to load at boot...'
+sudo install -d -m 0755 /etc/modules-load.d
+printf '%s\n' msi_ec | sudo tee /etc/modules-load.d/msi_ec.conf >/dev/null
