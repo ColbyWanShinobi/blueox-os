@@ -81,7 +81,7 @@ modules:
     #snippets:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
-      #- install-msi-ec.sh
+      - install-msi-ec.sh
       - install-dropbox.sh
       - install-vscode.sh
       - install-vscodium.sh
@@ -147,6 +147,7 @@ modules:
       - 19    # user-themes
       - 258   # notifications-alert-on-user-menu
       - 2929  # battery-time-percentage-compact
+      - 2983  # ip-finder
       - 307   # dash-to-dock
       - 3795  # notification-timeout
       - 4099  # no-overview

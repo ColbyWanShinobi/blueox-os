@@ -72,7 +72,7 @@ modules:
     #snippets:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
-      #- install-msi-ec.sh
+      - install-msi-ec.sh
       - install-dropbox.sh
       - install-vscode.sh
       - install-vscodium.sh

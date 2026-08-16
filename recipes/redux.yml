@@ -145,7 +145,7 @@ modules:
     #snippets:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
-      #- install-msi-ec.sh
+      - install-msi-ec.sh
       - install-dropbox.sh
       - install-vscode.sh
       - install-vscodium.sh
@@ -185,6 +185,7 @@ modules:
           - io.github.arunsivaramanneo.GPUViewer
           - io.github.fastrizwaan.WineZGUI
           - io.github.flattool.Warehouse
+          - io.github.kolunmi.Bazaar
           - io.github.pwr_solaar.solaar
           - io.github.ungoogled_software.ungoogled_chromium
           - io.missioncenter.MissionCenter
@@ -196,6 +197,7 @@ modules:
           - org.localsend.localsend_app
           - org.pulseaudio.pavucontrol
           - org.qbittorrent.qBittorrent
+          - org.videolan.VLC
           - us.zoom.Zoom
           - xyz.tytanium.DoorKnocker
         remove:
@@ -211,6 +213,7 @@ modules:
       - 19    # user-themes
       - 258   # notifications-alert-on-user-menu
       - 2929  # battery-time-percentage-compact
+      - 2983  # ip-finder
       - 307   # dash-to-dock
       - 3795  # notification-timeout
       - 4099  # no-overview
