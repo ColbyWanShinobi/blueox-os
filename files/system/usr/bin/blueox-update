@@ -36,7 +36,19 @@ if (( EUID != 0 )); then
 fi
 
 printf 'Checking for the newest signed BlueOx OS image...\n'
-rpm-ostree rebase "$IMAGE_REFERENCE"
+current_reference="$(
+  rpm-ostree status --booted --json |
+    jq -r '.deployments[] | select(.booted) | .["container-image-reference"] // empty'
+)"
+
+if [[ "$current_reference" == "$IMAGE_REFERENCE" ]]; then
+  # `rebase` only switches origins.  Re-basing to the reference already in
+  # use fails with “Old and new refs are equal”, even when its mutable tag has
+  # a newer image.  `upgrade` follows that origin and stages its newest commit.
+  rpm-ostree upgrade
+else
+  rpm-ostree rebase "$IMAGE_REFERENCE"
+fi
 
 if [[ "$reboot_after_update" == true ]]; then
   systemctl reboot
