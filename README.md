@@ -93,6 +93,22 @@ verifies them through the system container policy. To stage an image already
 built and signed with the same key, use `./self-update.sh --no-build --image
 ghcr.io/colbywanshinobi/blueox-os:redux`.
 
+### Preview a local update
+
+On an existing BlueOx install, use `blueox-preview` to build Redux, push the
+signed candidate image, and print the RPM changes compared with the current
+system without staging a deployment:
+
+```bash
+REGISTRY_TOKEN="$(gh auth token)" ./blueox-preview
+```
+
+It uses `rpm-ostree rebase --download-only`, so image data may be downloaded
+into the local OSTree cache but the running and next-boot deployments are left
+unchanged. To preview an already-published image instead, use
+`./blueox-preview --no-build --image IMAGE_REFERENCE`. Flatpak updates are
+separate from the OS image; check or apply them with `flatpak update --system`.
+
 ### Root scripts
 
 The root scripts are grouped by purpose:
@@ -101,6 +117,7 @@ The root scripts are grouped by purpose:
 | --- | --- |
 | `./build-local.sh` | Main local BlueBuild entrypoint. Builds `recipes/redux.yml` by default, accepts other recipe names or paths, can build `--all`, optionally pushes to a registry, optionally signs with cosign, logs to `.logs/`, and installs BlueBuild if missing. |
 | `./self-update.sh` | Builds Redux locally, pushes the signed `:redux` image, then stages it as the next deployment after signature verification. |
+| `./blueox-preview` | Builds Redux locally, pushes the signed `:redux` image, then prints the RPM diff without staging a deployment. |
 | `./build-redux.sh` | Convenience wrapper for `./build-local.sh --no-push --unsigned redux.yml`. |
 | `./redux.sh` | Duplicate convenience wrapper for `./build-local.sh --no-push --unsigned redux.yml`. |
 | `./build.sh` | Convenience wrapper for `./build-local.sh --no-push --unsigned blueox.yml`. This builds the older/non-default `blueox.yml` recipe, not the current Redux release image. |
@@ -110,6 +127,15 @@ The root scripts are grouped by purpose:
 | `./validate.sh` | Installs BlueBuild if needed, then validates `recipes/redux.yml`. |
 | `./create-vm.sh` | Creates or starts a local QEMU VM, optionally booting an installer ISO. VM files live under `.linux-vm/`. |
 | `./destroy-vm.sh` | Stops and removes a QEMU VM created by `./create-vm.sh`. The shared `~/VMShare` directory is preserved. |
+
+The image also includes `galahad2lcd`, built from the archived Galahad II LCD
+project. Install an FFmpeg build with `ffmpeg` and `ffprobe` (including the
+`libx264` encoder), then configure and enable the service with:
+
+```bash
+sudo galahad2lcd set-args --input /path/to/video-or-gif -r 0
+sudo systemctl enable galahad2lcd.service
+```
 
 For normal image work, use `./build-local.sh`. For installer media, use `./build-local-iso.sh` when testing a local recipe and `./build-github-iso.sh` when building from the published image. Use `./create-vm.sh` and `./destroy-vm.sh` only for local VM testing.
 

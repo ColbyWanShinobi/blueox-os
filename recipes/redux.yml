@@ -154,6 +154,7 @@ modules:
       - install-mcontrolcenter.sh
       - install-msi-mysticlight.sh
       - install-obsbot-camera-control.sh
+      - install-galahad2lcd.sh
 
   - type: default-flatpaks
     configurations:
@@ -197,6 +198,7 @@ modules:
           - org.localsend.localsend_app
           - org.pulseaudio.pavucontrol
           - org.qbittorrent.qBittorrent
+          - org.remmina.Remmina
           - org.videolan.VLC
           - us.zoom.Zoom
           - xyz.tytanium.DoorKnocker

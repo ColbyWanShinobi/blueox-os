@@ -10,24 +10,14 @@ on:
       - recipes/redux.yml
       - cosign.pub
       - files/system/**
-      - files/scripts/install-cyberpower-ups.sh
-      - files/scripts/install-dropbox.sh
-      - files/scripts/install-hardinfo2.sh
-      - files/scripts/install-mcontrolcenter.sh
-      - files/scripts/install-vscode.sh
-      - files/scripts/install-vscodium.sh
+      - files/scripts/**
 
   pull_request:
     paths:
       - recipes/redux.yml
       - cosign.pub
       - files/system/**
-      - files/scripts/install-cyberpower-ups.sh
-      - files/scripts/install-dropbox.sh
-      - files/scripts/install-hardinfo2.sh
-      - files/scripts/install-mcontrolcenter.sh
-      - files/scripts/install-vscode.sh
-      - files/scripts/install-vscodium.sh
+      - files/scripts/**
   workflow_dispatch: # allow manually triggering builds
 
 concurrency:
