@@ -44,6 +44,7 @@ modules:
       - exfatprogs
       - faugus-launcher
       - fd-find
+      - fdupes
       - ffmpeg
       - fzf
       - gcc
@@ -84,6 +85,7 @@ modules:
       - python3-gpg
       - python3-setuptools
       - pkgconf-pkg-config
+      - pv
       - qdirstat
       - qemu-img
       - qemu-system-x86
@@ -146,16 +148,17 @@ modules:
     #snippets:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
-      - install-msi-ec.sh
-      - install-dropbox.sh
-      - install-vscode.sh
-      - install-vscodium.sh
-      - install-hardinfo2.sh
       - install-cyberpower-ups.sh
+      - install-dropbox.sh
+      - install-galahad2lcd.sh
+      - install-hardinfo2.sh
       - install-mcontrolcenter.sh
+      - install-msi-ec.sh
       - install-msi-mysticlight.sh
       - install-obsbot-camera-control.sh
-      - install-galahad2lcd.sh
+      - install-openlogi.sh
+      - install-vscode.sh
+      - install-vscodium.sh
 
   - type: default-flatpaks
     configurations:
@@ -208,39 +211,39 @@ modules:
 
   - type: gnome-extensions
     install:
-      - 6868  # screenshort-cut
+      - 1183  # utcclock
+      - 1262  # bing-wallpaper-changer
       - 1386  # notification-counter
       - 1460  # vitals
-      #- 1484  # do-not-disturb-time
-      #- 1674  # topiconsfix
       - 19    # user-themes
       - 258   # notifications-alert-on-user-menu
+      - 2645  # brightness-control-using-ddcutil
       - 2929  # battery-time-percentage-compact
       - 2983  # ip-finder
       - 307   # dash-to-dock
+      - 3733  # tiling-assistant
       - 3795  # notification-timeout
+      - 3928  # auto-select-headset
       - 4099  # no-overview
       - 4105  # notification-banner-position
       - 4228  # wireless-hid
       - 4548  # tactile
-      - 615   # appindicator-support
-      - 6242  # emoji-copy
-      #- 6278  # battery-usage-wattmeter
-      #- 6325  # control-monitor-brightness-and-volume-with-ddcutil
-      - 744   # hide-activities-button
-      #- 988   # harddisk-led
-      - 6000  # quick-settings-audio-devices-renamer
-      #- 6898  # dual-monitor-toggle
-      - 1262  # bing-wallpaper-changer
-      - 6679  # power-profile-indicator
-      - 6583  # auto-power-profile
       - 5362  # wireguard-vpn-extension
       - 5964  # quick-settings-audio-devices-hider
-      - 1183  # utcclock
-      - 3733  # tiling-assistant
-      - 3928  # auto-select-headset
+      - 6000  # quick-settings-audio-devices-renamer
+      - 615   # appindicator-support
+      - 6242  # emoji-copy
+      - 6583  # auto-power-profile
+      - 6679  # power-profile-indicator
+      - 6868  # screenshort-cut
+      - 744   # hide-activities-button
       - 8261  # simpleweather
-      - 2645  # brightness-control-using-ddcutil
+      #- 1484  # do-not-disturb-time
+      #- 1674  # topiconsfix
+      #- 6278  # battery-usage-wattmeter
+      #- 6325  # control-monitor-brightness-and-volume-with-ddcutil
+      #- 6898  # dual-monitor-toggle
+      #- 988   # harddisk-led
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
