@@ -1,0 +1,8 @@
+[terra-mesa]
+name=Terra $releasever (Mesa)
+baseurl=https://repos.fyralabs.com/terra$releasever-mesa/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-terra-mesa
+priority=1
