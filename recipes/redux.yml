@@ -31,6 +31,7 @@ modules:
       - bat
       # Filesystem creation, checking, and repair tools.
       - btrfs-progs
+      - cabextract
       - cargo
       - cmake
       - conda
@@ -62,6 +63,7 @@ modules:
       - hplip-libs
       - htop
       - ifuse
+      - ImageMagick
       - iotop-c
       - jq
       - just
@@ -72,14 +74,17 @@ modules:
       - lsof
       - monitor-edid
       - make
+      - mangohud
       - mtools
       - nethogs
       - nodejs
       - ntfs-3g
+      - openssh-server
       - openssl-devel
       - podman-docker
       - podman-compose
       - powertop
+      - protontricks
       - pyproject-rpm-macros
       - python3-devel
       - python3-gpg
@@ -109,6 +114,7 @@ modules:
       - samba
       - shellcheck
       - shfmt
+      - sshpass
       - strace
       - sudo
       - syncthing
@@ -118,11 +124,14 @@ modules:
       - unzip
       - v4l-utils
       - vkBasalt
+      - wol
       - wayland-utils
       - wine
+      - winetricks
       - wtype
       - xorriso
       - yq
+      - zenity
       - zip
       - zoxide
       - kernel-devel
