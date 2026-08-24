@@ -22,7 +22,7 @@ modules:
 
   - type: rpm-ostree
     repos:
-      - https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
+      #- https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
       - https://copr.fedorainfracloud.org/coprs/codifryed/CoolerControl/repo/fedora-%OS_VERSION%/codifryed-CoolerControl-fedora-%OS_VERSION%.repo
       # - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
@@ -43,7 +43,7 @@ modules:
       - edk2-ovmf
       - eza
       - exfatprogs
-      - faugus-launcher
+      #- faugus-launcher
       - fd-find
       - fdupes
       - ffmpeg
