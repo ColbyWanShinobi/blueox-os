@@ -3,6 +3,7 @@
 set -Eeuo pipefail
 
 readonly IMAGE_REFERENCE='ostree-image-signed:docker://ghcr.io/colbywanshinobi/blueox-os:latest'
+readonly LOG_FILE='/var/log/blueox-update.log'
 
 usage() {
   cat <<'EOF'
@@ -35,6 +36,11 @@ if (( EUID != 0 )); then
   exec sudo -- "$0" "$@"
 fi
 
+touch "$LOG_FILE"
+chmod 0644 "$LOG_FILE"
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+printf '\n===== BlueOx update started: %s =====\n' "$(date --iso-8601=seconds)"
 printf 'Checking for the newest signed BlueOx OS image...\n'
 current_reference="$(
   rpm-ostree status --booted --json |
@@ -51,7 +57,9 @@ else
 fi
 
 if [[ "$reboot_after_update" == true ]]; then
+  printf 'Update complete; rebooting now.\n'
   systemctl reboot
 fi
 
 printf '\nUpdate staged. Reboot to boot the new deployment.\n'
+printf '===== BlueOx update finished: %s =====\n' "$(date --iso-8601=seconds)"

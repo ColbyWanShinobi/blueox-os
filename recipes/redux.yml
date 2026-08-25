@@ -153,6 +153,12 @@ modules:
       # - firefox
       # - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
+  # Do not permit a transient repository outage to produce an image with an
+  # unintended fallback Mesa stack.
+  - type: script
+    scripts:
+      - verify-rpm-repositories.sh
+
   # Selectively follow Bazzite's Xwayland and Valve-patched 64-bit Mesa sources.
   # Keep this separate from the 32-bit install below: the DNF module processes
   # installs before replacements, which would otherwise create file conflicts.
