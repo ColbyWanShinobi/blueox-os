@@ -32,7 +32,8 @@ Options:
 
 Environment overrides:
   REGISTRY, NAMESPACE, REGISTRY_USERNAME, REGISTRY_TOKEN (or GH_TOKEN),
-  COSIGN_KEY_PATH, and COSIGN_PASSWORD.
+  COSIGN_KEY_PATH, and COSIGN_PASSWORD. When no token is supplied, the script
+  uses the authenticated GitHub CLI session (`gh auth token`).
 
 Examples:
   ${SCRIPT_NAME}
@@ -110,8 +111,15 @@ if [[ "$build_image" == true ]]; then
   namespace="$(tr '[:upper:]' '[:lower:]' <<<"$namespace")"
   [[ -n "$username" ]] || username="$namespace"
 
+  registry_token="${REGISTRY_TOKEN:-${GH_TOKEN:-}}"
+  if [[ -z "$registry_token" ]]; then
+    command -v gh >/dev/null 2>&1 || die "REGISTRY_TOKEN is not set and the GitHub CLI (gh) is unavailable; run 'gh auth login' or set REGISTRY_TOKEN"
+    registry_token="$(gh auth token)" || die "could not obtain a GitHub token; run 'gh auth login' or set REGISTRY_TOKEN"
+    [[ -n "$registry_token" ]] || die "GitHub CLI returned an empty token; run 'gh auth login' or set REGISTRY_TOKEN"
+  fi
+
   printf 'Building, signing, and pushing Redux from this checkout...\n'
-  "$REPOSITORY_ROOT/build-local.sh" \
+  REGISTRY_TOKEN="$registry_token" "$REPOSITORY_ROOT/build-local.sh" \
     --push --signed \
     --registry "$registry" \
     --namespace "$namespace" \

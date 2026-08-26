@@ -76,6 +76,7 @@ modules:
       - make
       - mangohud
       - mtools
+      - nautilus-python
       - nethogs
       - nodejs
       - ntfs-3g
@@ -206,6 +207,7 @@ modules:
     #snippets:
     #  - "rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:patrickl:winetricks winetricks"
     scripts:
+      - install-chatgpt.sh
       - install-cyberpower-ups.sh
       - install-dropbox.sh
       - install-galahad2lcd.sh
