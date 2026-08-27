@@ -69,10 +69,6 @@ sudo touch "$GRUB_FILE"
 
 set_user_cfg_option "timeout" "5"
 set_user_cfg_option "default" "saved"
-# Fedora Atomic's static config reads GRUB runtime variables from user.cfg.
-# With BLS entries, save_default makes the selected entry persist in grubenv,
-# while default=saved uses it on the next boot.
-set_user_cfg_option "save_default" "true"
 set_user_cfg_option "gfxmode" "1920x1080,auto"
 set_user_cfg_option "gfxpayload" "keep"
 set_user_cfg_option "menu_color_normal" "white/black"
