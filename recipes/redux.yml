@@ -49,6 +49,7 @@ modules:
       - fdupes
       - ffmpeg
       - flac-devel
+      - freerdp
       - fzf
       - gcc
       - gcc-c++
@@ -68,6 +69,7 @@ modules:
       - ifuse
       - ImageMagick
       - iotop-c
+      - iptables
       - jq
       - just
       - libappindicator
@@ -87,6 +89,7 @@ modules:
       - openssl-devel
       - podman-docker
       - podman-compose
+      - policycoreutils
       - powertop
       - protontricks
       - pyproject-rpm-macros
@@ -235,6 +238,8 @@ modules:
       - install-openlogi.sh
       - install-vscode.sh
       - install-vscodium.sh
+      - install-winboat.sh
+      - configure-winboat-podman.sh
 
   - type: default-flatpaks
     configurations:

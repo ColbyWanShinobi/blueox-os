@@ -1,11 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
-cat /etc/sub?id
-
+# Run this after creating the desktop user if it lacks subordinate ID mappings.
 echo "${USER}:100000:1000854465" | sudo tee /etc/subuid
 echo "${USER}:100000:1000854465" | sudo tee /etc/subgid
-
-cat /etc/sub?id
-
-podman system migrate
-sudo setsebool -P container_use_devices=true
