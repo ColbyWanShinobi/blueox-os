@@ -68,7 +68,15 @@ sudo install -d -m 0755 /boot/grub2
 sudo touch "$GRUB_FILE"
 
 set_user_cfg_option "timeout" "5"
-set_user_cfg_option "default" "saved"
+# Fedora Atomic's static GRUB configuration does not provide the
+# `savedefault` command. Use the first menu entry instead of enabling saved
+# entry support, which would make GRUB abort while sourcing user.cfg.
+set_user_cfg_option "default" "0"
+# Remove the setting written by older versions of this script. Leaving it in
+# user.cfg makes the script non-idempotent and can cause the static config to
+# emit/use the unsupported `savedefault` command.
+sudo sed -i '/^[[:space:]]*set[[:space:]]\+save_default=/d' "$GRUB_FILE"
+sudo sed -i '/^[[:space:]]*savedefault[[:space:]]*$/d' "$GRUB_FILE"
 set_user_cfg_option "gfxmode" "1920x1080,auto"
 set_user_cfg_option "gfxpayload" "keep"
 set_user_cfg_option "menu_color_normal" "white/black"
