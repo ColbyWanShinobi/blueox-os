@@ -136,6 +136,7 @@ modules:
       - sudo
       - syncthing
       - systemd-rpm-macros
+      - tailscale
       - tmux
       - tree
       - unzip
@@ -319,12 +320,14 @@ modules:
       - 6868  # screenshort-cut
       - 744   # hide-activities-button
       - 8261  # simpleweather
+      - 8656  # clean-uptime
       #- 1484  # do-not-disturb-time
       #- 1674  # topiconsfix
       #- 6278  # battery-usage-wattmeter
       #- 6325  # control-monitor-brightness-and-volume-with-ddcutil
       #- 6898  # dual-monitor-toggle
       #- 988   # harddisk-led
+      
 
   # - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
