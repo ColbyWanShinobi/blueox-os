@@ -74,12 +74,15 @@ modules:
       - just
       - libappindicator
       - libappindicator-gtk3
+      - libmediainfo
       - libimobiledevice
+      - libnotify
       - libportal-gtk3
       - lsof
       - monitor-edid
       - make
       - mangohud
+      - mediainfo
       - mtools
       - nautilus-python
       - nethogs
@@ -94,7 +97,9 @@ modules:
       - protontricks
       - pyproject-rpm-macros
       - python3-devel
+      - python3-gobject
       - python3-gpg
+      - python3-pymediainfo
       - python3-setuptools
       - pkgconf-pkg-config
       - pv
