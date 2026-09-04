@@ -127,6 +127,7 @@ modules:
       - rocm-smi
       - rocminfo
       - rust
+      - rustfmt
       - ruby
       - ruby-devel
       - rubygem-bundler
