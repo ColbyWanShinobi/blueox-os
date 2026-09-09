@@ -22,13 +22,15 @@ modules:
 
   - type: rpm-ostree
     repos:
-      #- https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
+      - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+      # - https://copr.fedorainfracloud.org/coprs/faugus/faugus-launcher/repo/fedora-%OS_VERSION%/faugus-faugus-launcher-fedora-%OS_VERSION%.repo
       - https://copr.fedorainfracloud.org/coprs/codifryed/CoolerControl/repo/fedora-%OS_VERSION%/codifryed-CoolerControl-fedora-%OS_VERSION%.repo
       # - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
       - acpica-tools
       # Common CLI tools for Codex, Claude Code, and interactive development.
       - bat
+      - brave-browser
       # Filesystem creation, checking, and repair tools.
       - btrfs-progs
       - cabextract
@@ -44,10 +46,11 @@ modules:
       - edk2-ovmf
       - eza
       - exfatprogs
-      #- faugus-launcher
       - fd-find
       - fdupes
       - ffmpeg
+      - firefox
+      - firefox-langpacks
       - flac-devel
       - freerdp
       - fzf
@@ -173,11 +176,11 @@ modules:
     install:
       - proton-vpn-gnome-desktop
 
-    remove:
+    # remove:
       # example: removing firefox (in favor of the flatpak)
       # "firefox" is the main package, "firefox-langpacks" is a dependency
-      - firefox
-      - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+      # - firefox
+      # - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
   # Do not permit a transient repository outage to produce an image with an
   # unintended fallback Mesa stack.
@@ -240,10 +243,10 @@ modules:
       - install-mcontrolcenter.sh
       - install-msi-ec.sh
       - install-msi-mysticlight.sh
-      #- install-noson-app.sh
+      # - install-noson-app.sh
       - install-obsbot-camera-control.sh
       - install-openlogi.sh
-      - install-vscode.sh
+      # - install-vscode.sh
       - install-vscodium.sh
       - install-winboat.sh
       - configure-winboat-podman.sh
@@ -258,7 +261,6 @@ modules:
           title: "Flathub (system-wide)"
         install:
           - ca.desrt.dconf-editor
-          - com.brave.Browser
           - com.core447.StreamController
           - com.dec05eba.gpu_screen_recorder
           - com.discordapp.Discord
