@@ -4,14 +4,23 @@ set -euo pipefail
 
 MSI_EC_COMMON_RPM='https://github.com/ColbyWanShinobi/msi-ec/releases/download/v0.13/msi-ec-kmod-common-0.13-2.fc44.noarch.rpm'
 AKMOD_MSI_EC_RPM='https://github.com/ColbyWanShinobi/msi-ec/releases/download/v0.13/akmod-msi-ec-0.13-2.fc44.x86_64.rpm'
+KERNEL_PACKAGES=(
+  kernel
+  kernel-core
+  kernel-modules
+  kernel-modules-core
+  kernel-modules-extra
+  kernel-devel
+  kernel-devel-matched
+)
 
 if ! command -v rpm-ostree >/dev/null 2>&1; then
   echo 'This installer requires rpm-ostree.' >&2
   exit 1
 fi
 
-echo 'Installing MSI EC kernel-module packages...'
-sudo rpm-ostree install "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
+echo 'Installing the newest matching kernel, headers, and MSI EC packages...'
+sudo rpm-ostree install "${KERNEL_PACKAGES[@]}" "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
 
 # On an OSTree system akmods.service does not run after boot, so an akmod
 # installed into the image would otherwise never produce its kernel module.
