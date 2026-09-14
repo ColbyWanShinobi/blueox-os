@@ -5,13 +5,13 @@ set -euo pipefail
 MSI_EC_COMMON_RPM='https://github.com/ColbyWanShinobi/msi-ec/releases/download/v0.13/msi-ec-kmod-common-0.13-2.fc44.noarch.rpm'
 AKMOD_MSI_EC_RPM='https://github.com/ColbyWanShinobi/msi-ec/releases/download/v0.13/akmod-msi-ec-0.13-2.fc44.x86_64.rpm'
 
-if ! command -v dnf >/dev/null 2>&1; then
-  echo 'This installer requires dnf.' >&2
+if ! command -v rpm-ostree >/dev/null 2>&1; then
+  echo 'This installer requires rpm-ostree.' >&2
   exit 1
 fi
 
 echo 'Installing MSI EC kernel-module packages...'
-sudo dnf install -y "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
+sudo rpm-ostree install "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
 
 # On an OSTree system akmods.service does not run after boot, so an akmod
 # installed into the image would otherwise never produce its kernel module.
@@ -37,14 +37,6 @@ if [[ "${#IMAGE_KERNELS[@]}" -eq 0 ]]; then
   echo 'Could not locate an image kernel to build MSI EC for.' >&2
   exit 1
 fi
-
-# The base image may contain a newer kernel than the Fedora repositories'
-# unversioned `kernel-devel` package.  Install the development tree matching
-# each kernel in the image; akmodsbuild requires its /usr/src/kernels entry.
-echo 'Installing matching kernel development files...'
-for kernel in "${IMAGE_KERNELS[@]}"; do
-  sudo dnf install -y "kernel-devel-${kernel}"
-done
 
 BUILD_DIR="$(mktemp -d /var/tmp/msi-ec-kmod-build.XXXXXX)"
 readonly BUILD_DIR
