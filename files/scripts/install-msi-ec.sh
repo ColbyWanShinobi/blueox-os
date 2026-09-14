@@ -38,6 +38,14 @@ if [[ "${#IMAGE_KERNELS[@]}" -eq 0 ]]; then
   exit 1
 fi
 
+# The base image may contain a newer kernel than the Fedora repositories'
+# unversioned `kernel-devel` package.  Install the development tree matching
+# each kernel in the image; akmodsbuild requires its /usr/src/kernels entry.
+echo 'Installing matching kernel development files...'
+for kernel in "${IMAGE_KERNELS[@]}"; do
+  sudo dnf install -y "kernel-devel-${kernel}"
+done
+
 BUILD_DIR="$(mktemp -d /var/tmp/msi-ec-kmod-build.XXXXXX)"
 readonly BUILD_DIR
 trap 'rm -rf -- "$BUILD_DIR"' EXIT
