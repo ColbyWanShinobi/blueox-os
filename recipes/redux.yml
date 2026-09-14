@@ -167,7 +167,6 @@ modules:
       - zip
       - zoxide
       - zlib-devel
-      - kernel-devel
 
   # Proton distributes its Fedora repository as a release RPM. Keep this URL
   # in sync with image-version above when rebasing to another Fedora release.
