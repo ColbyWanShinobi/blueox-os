@@ -35,6 +35,8 @@ modules:
       - btrfs-progs
       - cabextract
       - cargo
+      - cdparanoia
+      - cdrdao
       - cmake
       - conda
       - coolercontrol
@@ -49,6 +51,7 @@ modules:
       - fd-find
       - fdupes
       - ffmpeg
+      - flac
       - firefox
       - firefox-langpacks
       - flac-devel
@@ -140,6 +143,7 @@ modules:
       - samba
       - shellcheck
       - shfmt
+      - sox
       - sshpass
       - strace
       - sudo
