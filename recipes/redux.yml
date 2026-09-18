@@ -34,6 +34,8 @@ modules:
       # Filesystem creation, checking, and repair tools.
       - btrfs-progs
       - cabextract
+      - cairo
+      - cairo-devel
       - cargo
       - cdparanoia
       - cdrdao
@@ -80,6 +82,10 @@ modules:
       - just
       - libappindicator
       - libappindicator-gtk3
+      - libcdio
+      - libcdio-devel
+      - libdiscid
+      - libdiscid-devel
       - libmediainfo
       - libimobiledevice
       - libnotify
