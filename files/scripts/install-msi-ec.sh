@@ -59,13 +59,11 @@ if [[ "${#HEADER_REPLACEMENTS[@]}" -ne "${#IMAGE_KERNELS[@]}" || "${#HEADER_MATC
   exit 1
 fi
 
-HEADER_INSTALL_OPTIONS=()
-for header_rpm in "${HEADER_MATCHED_RPMS[@]}"; do
-  HEADER_INSTALL_OPTIONS+=(--install "$header_rpm")
-done
+echo 'Installing matching kernel-devel-matched packages...'
+sudo rpm-ostree install "${HEADER_MATCHED_RPMS[@]}"
 
-echo 'Installing headers matching the image kernel(s)...'
-sudo rpm-ostree override replace "${HEADER_INSTALL_OPTIONS[@]}" "${HEADER_REPLACEMENTS[@]}"
+echo 'Replacing kernel-devel with matching local RPMs...'
+sudo rpm-ostree override replace "${HEADER_REPLACEMENTS[@]}"
 
 echo 'Installing MSI EC packages...'
 sudo rpm-ostree install "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
