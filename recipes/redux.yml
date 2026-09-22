@@ -147,6 +147,7 @@ modules:
       - rpm-build
       - rsync
       - samba
+      - sayonara
       - shellcheck
       - shfmt
       - sox
