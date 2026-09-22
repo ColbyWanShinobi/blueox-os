@@ -28,9 +28,9 @@ for kernel in "${IMAGE_KERNELS[@]}"; do
   )
 done
 
-# rpm-ostree supports replacement overrides only from local RPM files.  Fetch
-# exact NEVRAs first so DNF cannot substitute a newer header from another
-# repository while resolving the transaction.
+# Fetch exact NEVRAs first so DNF cannot substitute a newer header from
+# another repository while resolving the transaction.  Install both headers
+# together: kernel-devel-matched requires the matching kernel-devel package.
 HEADER_RPMS_DIR="$(mktemp -d /var/tmp/msi-ec-kernel-headers.XXXXXX)"
 readonly HEADER_RPMS_DIR
 cleanup() {
@@ -41,29 +41,22 @@ trap cleanup EXIT
 echo 'Downloading headers matching the image kernel(s)...'
 dnf download --destdir "$HEADER_RPMS_DIR" "${HEADER_PACKAGES[@]}"
 
-HEADER_REPLACEMENTS=()
-HEADER_MATCHED_RPMS=()
+HEADER_RPMS=()
 for header_rpm in "$HEADER_RPMS_DIR"/*.rpm; do
   case "$(rpm -qp --qf '%{NAME}' "$header_rpm")" in
-    kernel-devel)
-      HEADER_REPLACEMENTS+=("$header_rpm")
-      ;;
-    kernel-devel-matched)
-      HEADER_MATCHED_RPMS+=("$header_rpm")
+    kernel-devel|kernel-devel-matched)
+      HEADER_RPMS+=("$header_rpm")
       ;;
   esac
 done
 
-if [[ "${#HEADER_REPLACEMENTS[@]}" -ne "${#IMAGE_KERNELS[@]}" || "${#HEADER_MATCHED_RPMS[@]}" -ne "${#IMAGE_KERNELS[@]}" ]]; then
+if [[ "${#HEADER_RPMS[@]}" -ne "$(( ${#IMAGE_KERNELS[@]} * 2 ))" ]]; then
   echo 'Could not download every required matching kernel header RPM.' >&2
   exit 1
 fi
 
-echo 'Installing matching kernel-devel-matched packages...'
-sudo rpm-ostree install "${HEADER_MATCHED_RPMS[@]}"
-
-echo 'Replacing kernel-devel with matching local RPMs...'
-sudo rpm-ostree override replace "${HEADER_REPLACEMENTS[@]}"
+echo 'Installing matching kernel header RPMs...'
+dnf install -y --allowerasing "${HEADER_RPMS[@]}"
 
 echo 'Installing MSI EC packages...'
 sudo rpm-ostree install "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
