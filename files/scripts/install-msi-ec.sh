@@ -20,11 +20,48 @@ fi
 # not ask rpm-ostree for unversioned kernel packages here: Fedora repositories
 # can advance kernel-devel before that OCI artifact does.  Replace only the
 # header pair with packages matching the kernel ABI already in the image.
-HEADER_REPLACEMENTS=()
-HEADER_INSTALL_OPTIONS=()
+HEADER_PACKAGES=()
 for kernel in "${IMAGE_KERNELS[@]}"; do
-  HEADER_REPLACEMENTS+=("kernel-devel-${kernel}")
-  HEADER_INSTALL_OPTIONS+=(--install "kernel-devel-matched-${kernel}")
+  HEADER_PACKAGES+=(
+    "kernel-devel-${kernel}"
+    "kernel-devel-matched-${kernel}"
+  )
+done
+
+# rpm-ostree supports replacement overrides only from local RPM files.  Fetch
+# exact NEVRAs first so DNF cannot substitute a newer header from another
+# repository while resolving the transaction.
+HEADER_RPMS_DIR="$(mktemp -d /var/tmp/msi-ec-kernel-headers.XXXXXX)"
+readonly HEADER_RPMS_DIR
+cleanup() {
+  rm -rf -- "$HEADER_RPMS_DIR" "${BUILD_DIR:-}"
+}
+trap cleanup EXIT
+
+echo 'Downloading headers matching the image kernel(s)...'
+dnf download --destdir "$HEADER_RPMS_DIR" "${HEADER_PACKAGES[@]}"
+
+HEADER_REPLACEMENTS=()
+HEADER_MATCHED_RPMS=()
+for header_rpm in "$HEADER_RPMS_DIR"/*.rpm; do
+  case "$(rpm -qp --qf '%{NAME}' "$header_rpm")" in
+    kernel-devel)
+      HEADER_REPLACEMENTS+=("$header_rpm")
+      ;;
+    kernel-devel-matched)
+      HEADER_MATCHED_RPMS+=("$header_rpm")
+      ;;
+  esac
+done
+
+if [[ "${#HEADER_REPLACEMENTS[@]}" -ne "${#IMAGE_KERNELS[@]}" || "${#HEADER_MATCHED_RPMS[@]}" -ne "${#IMAGE_KERNELS[@]}" ]]; then
+  echo 'Could not download every required matching kernel header RPM.' >&2
+  exit 1
+fi
+
+HEADER_INSTALL_OPTIONS=()
+for header_rpm in "${HEADER_MATCHED_RPMS[@]}"; do
+  HEADER_INSTALL_OPTIONS+=(--install "$header_rpm")
 done
 
 echo 'Installing headers matching the image kernel(s)...'
@@ -54,7 +91,6 @@ fi
 
 BUILD_DIR="$(mktemp -d /var/tmp/msi-ec-kmod-build.XXXXXX)"
 readonly BUILD_DIR
-trap 'rm -rf -- "$BUILD_DIR"' EXIT
 chown akmods:akmods "$BUILD_DIR"
 
 echo 'Building the MSI EC module for the image kernel(s)...'
