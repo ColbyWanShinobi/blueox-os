@@ -58,6 +58,7 @@ modules:
       - firefox-langpacks
       - flac-devel
       - freerdp
+      - fuse-libs
       - fzf
       - gcc
       - gcc-c++
