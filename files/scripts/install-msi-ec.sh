@@ -4,23 +4,34 @@ set -euo pipefail
 
 MSI_EC_COMMON_RPM='https://github.com/ColbyWanShinobi/msi-ec/releases/download/v0.13/msi-ec-kmod-common-0.13-2.fc44.noarch.rpm'
 AKMOD_MSI_EC_RPM='https://github.com/ColbyWanShinobi/msi-ec/releases/download/v0.13/akmod-msi-ec-0.13-2.fc44.x86_64.rpm'
-KERNEL_PACKAGES=(
-  kernel
-  kernel-core
-  kernel-modules
-  kernel-modules-core
-  kernel-modules-extra
-  kernel-devel
-  kernel-devel-matched
-)
 
 if ! command -v rpm-ostree >/dev/null 2>&1; then
   echo 'This installer requires rpm-ostree.' >&2
   exit 1
 fi
 
-echo 'Installing the newest matching kernel, headers, and MSI EC packages...'
-sudo rpm-ostree install "${KERNEL_PACKAGES[@]}" "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
+mapfile -t IMAGE_KERNELS < <(find /usr/lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
+if [[ "${#IMAGE_KERNELS[@]}" -eq 0 ]]; then
+  echo 'Could not locate an image kernel to build MSI EC for.' >&2
+  exit 1
+fi
+
+# UBlue installs and locks its runtime kernel from its own OCI artifact.  Do
+# not ask rpm-ostree for unversioned kernel packages here: Fedora repositories
+# can advance kernel-devel before that OCI artifact does.  Replace only the
+# header pair with packages matching the kernel ABI already in the image.
+HEADER_REPLACEMENTS=()
+HEADER_INSTALL_OPTIONS=()
+for kernel in "${IMAGE_KERNELS[@]}"; do
+  HEADER_REPLACEMENTS+=("kernel-devel-${kernel}")
+  HEADER_INSTALL_OPTIONS+=(--install "kernel-devel-matched-${kernel}")
+done
+
+echo 'Installing headers matching the image kernel(s)...'
+sudo rpm-ostree override replace "${HEADER_INSTALL_OPTIONS[@]}" "${HEADER_REPLACEMENTS[@]}"
+
+echo 'Installing MSI EC packages...'
+sudo rpm-ostree install "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
 
 # On an OSTree system akmods.service does not run after boot, so an akmod
 # installed into the image would otherwise never produce its kernel module.
@@ -41,12 +52,6 @@ if ! id akmods >/dev/null 2>&1; then
   exit 1
 fi
 
-mapfile -t IMAGE_KERNELS < <(find /usr/lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
-if [[ "${#IMAGE_KERNELS[@]}" -eq 0 ]]; then
-  echo 'Could not locate an image kernel to build MSI EC for.' >&2
-  exit 1
-fi
-
 BUILD_DIR="$(mktemp -d /var/tmp/msi-ec-kmod-build.XXXXXX)"
 readonly BUILD_DIR
 trap 'rm -rf -- "$BUILD_DIR"' EXIT
@@ -54,6 +59,18 @@ chown akmods:akmods "$BUILD_DIR"
 
 echo 'Building the MSI EC module for the image kernel(s)...'
 for kernel in "${IMAGE_KERNELS[@]}"; do
+  KERNEL_BUILD_DIR="/usr/lib/modules/${kernel}/build"
+  if [[ ! -d "$KERNEL_BUILD_DIR" ]]; then
+    echo "Matching headers for image kernel ${kernel} are unavailable." >&2
+    exit 1
+  fi
+
+  HEADER_RELEASE="$(make -s -C "$KERNEL_BUILD_DIR" kernelrelease)"
+  if [[ "$HEADER_RELEASE" != "$kernel" ]]; then
+    echo "Header ABI ${HEADER_RELEASE} does not match image kernel ${kernel}." >&2
+    exit 1
+  fi
+
   runuser -u akmods -- akmodsbuild --kernels "$kernel" --outputdir "$BUILD_DIR" "$MSI_EC_AKMOD_SRPM"
 done
 
