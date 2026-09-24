@@ -29,8 +29,10 @@ for kernel in "${IMAGE_KERNELS[@]}"; do
 done
 
 # Fetch exact NEVRAs first so DNF cannot substitute a newer header from
-# another repository while resolving the transaction.  Install both headers
-# together: kernel-devel-matched requires the matching kernel-devel package.
+# another repository while resolving the transaction.  Fedora can remove an
+# update from its RPM metadata while a base image using that kernel is still
+# current, so use Koji's immutable build artifacts as a fallback.  Install
+# both headers together: kernel-devel-matched requires kernel-devel.
 HEADER_RPMS_DIR="$(mktemp -d /var/tmp/msi-ec-kernel-headers.XXXXXX)"
 readonly HEADER_RPMS_DIR
 cleanup() {
@@ -39,15 +41,50 @@ cleanup() {
 trap cleanup EXIT
 
 echo 'Downloading headers matching the image kernel(s)...'
-dnf download --destdir "$HEADER_RPMS_DIR" "${HEADER_PACKAGES[@]}"
+dnf download --destdir "$HEADER_RPMS_DIR" "${HEADER_PACKAGES[@]}" || true
+
+find_header_rpm() {
+  local package_name="$1"
+  local kernel="$2"
+  local header_rpm
+
+  shopt -s nullglob
+  for header_rpm in "$HEADER_RPMS_DIR"/*.rpm; do
+    if [[ "$(rpm -qp --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}' "$header_rpm")" == "${package_name}-${kernel}" ]]; then
+      printf '%s\n' "$header_rpm"
+      return 0
+    fi
+  done
+  return 1
+}
+
+for kernel in "${IMAGE_KERNELS[@]}"; do
+  kernel_version="${kernel%%-*}"
+  kernel_release_arch="${kernel#*-}"
+  kernel_arch="${kernel_release_arch##*.}"
+  kernel_release="${kernel_release_arch%."${kernel_arch}"}"
+
+  for package_name in kernel-devel kernel-devel-matched; do
+    if find_header_rpm "$package_name" "$kernel" >/dev/null; then
+      continue
+    fi
+
+    header_filename="${package_name}-${kernel}.rpm"
+    header_url="https://kojipkgs.fedoraproject.org/packages/kernel/${kernel_version}/${kernel_release}/${kernel_arch}/${header_filename}"
+    echo "Fetching ${header_filename} from Fedora Koji..."
+    curl --fail --location --retry 3 --output "$HEADER_RPMS_DIR/$header_filename" "$header_url"
+  done
+done
 
 HEADER_RPMS=()
-for header_rpm in "$HEADER_RPMS_DIR"/*.rpm; do
-  case "$(rpm -qp --qf '%{NAME}' "$header_rpm")" in
-    kernel-devel|kernel-devel-matched)
-      HEADER_RPMS+=("$header_rpm")
-      ;;
-  esac
+for kernel in "${IMAGE_KERNELS[@]}"; do
+  for package_name in kernel-devel kernel-devel-matched; do
+    if ! header_rpm="$(find_header_rpm "$package_name" "$kernel")"; then
+      echo "Could not download ${package_name}-${kernel}." >&2
+      exit 1
+    fi
+    HEADER_RPMS+=("$header_rpm")
+  done
 done
 
 if [[ "${#HEADER_RPMS[@]}" -ne "$(( ${#IMAGE_KERNELS[@]} * 2 ))" ]]; then
