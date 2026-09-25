@@ -277,7 +277,6 @@ modules:
           - com.ranfdev.DistroShelf
           - com.slack.Slack
           - com.spotify.Client
-          - com.valvesoftware.Steam
           - eu.betterbird.Betterbird
           - io.github.arunsivaramanneo.GPUViewer
           - io.github.fastrizwaan.WineZGUI
