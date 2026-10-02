@@ -4,11 +4,11 @@ set -euo pipefail
 ################
 APP_NAME=winboat
 APP_COMMAND=winboat
-RELEASE_API_URL='https://api.github.com/repos/winboat-org/winboat/releases/latest'
+RELEASE_LATEST_URL='https://github.com/winboat-org/winboat/releases/latest'
 PACKAGE_TYPE=rpm
 ################
 # Space delimited list of required command-line utilities to run this script
-prereq_list=(curl jq rpm-ostree)
+prereq_list=(curl rpm-ostree)
 
 # Check to see if the prereq utilities are installed
 for util in "${prereq_list[@]}";do
@@ -31,22 +31,28 @@ if [ -x "$(command -v ${APP_COMMAND})" ];then
 	exit 0
 fi
 
-# Resolve the x86_64 RPM from WinBoat's latest GitHub release. Keeping this
-# dynamic avoids pinning the image to a stale upstream release.
-DL_URL="$(curl --location --silent --fail --show-error "${RELEASE_API_URL}" | jq --raw-output --exit-status '
-  .assets[]
-  | select(.name | test("^winboat-.+-x86_64\\.rpm$"))
-  | .browser_download_url
-' | head --lines 1)"
+# Resolve the latest release tag through GitHub's public redirect rather than
+# the unauthenticated REST API.  Shared GitHub Actions runner IPs can exhaust
+# the API rate limit and receive HTTP 403 before the RPM download begins.
+echo 'Finding the newest WinBoat release...'
+RELEASE_URL="$(curl --location --silent --fail --show-error \
+  --retry 5 --retry-all-errors --retry-delay 3 --retry-max-time 120 \
+  --connect-timeout 30 --output /dev/null --write-out '%{url_effective}' "$RELEASE_LATEST_URL")"
+RELEASE_TAG="${RELEASE_URL##*/}"
+RELEASE_VERSION="${RELEASE_TAG#v}"
 
-if [ -z "${DL_URL}" ];then
-  echo "Unable to find an x86_64 RPM in the latest WinBoat release."
+if [[ -z "$RELEASE_VERSION" ]] || [[ "$RELEASE_VERSION" == "$RELEASE_TAG" ]]; then
+  echo "Unable to determine the latest WinBoat release tag." >&2
   exit 1
 fi
 
+DL_URL="https://github.com/winboat-org/winboat/releases/download/${RELEASE_TAG}/winboat-${RELEASE_VERSION}-x86_64.rpm"
+
 # Download the file
 echo "Downloading file ${DL_URL} to ${PACKAGE_PATH}"
-curl --location --silent --fail --show-error --output "${PACKAGE_PATH}" "${DL_URL}"
+curl --location --silent --fail --show-error \
+  --retry 5 --retry-all-errors --retry-delay 3 --retry-max-time 120 \
+  --connect-timeout 30 --output "${PACKAGE_PATH}" "${DL_URL}"
 
 # Layer the RPM transactionally so it remains compatible with Fedora Atomic's
 # read-only /usr filesystem.
