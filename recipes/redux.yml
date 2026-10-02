@@ -147,6 +147,8 @@ modules:
       - rubygem-bundler
       - ripgrep
       - rpm-build
+      # Rebuilds the vendor Slack RPM without its globally colliding build-ID links.
+      - rpmrebuild
       - rsync
       - samba
       - sayonara
@@ -251,6 +253,8 @@ modules:
       # - install-vscode.sh
       - install-vscodium.sh
       - install-winboat.sh
+      - install-slack.sh
+      - install-zoom.sh
       - configure-winboat-podman.sh
 
   - type: default-flatpaks
@@ -275,7 +279,6 @@ modules:
           - com.mattjakeman.ExtensionManager
           - com.microsoft.Edge
           - com.ranfdev.DistroShelf
-          - com.slack.Slack
           - com.spotify.Client
           - eu.betterbird.Betterbird
           - io.github.arunsivaramanneo.GPUViewer
@@ -295,7 +298,6 @@ modules:
           - org.qbittorrent.qBittorrent
           - org.remmina.Remmina
           - org.videolan.VLC
-          - us.zoom.Zoom
           - xyz.tytanium.DoorKnocker
         remove:
           - org.mozilla.firefox

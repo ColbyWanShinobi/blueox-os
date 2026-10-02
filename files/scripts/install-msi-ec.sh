@@ -10,7 +10,11 @@ if ! command -v rpm-ostree >/dev/null 2>&1; then
   exit 1
 fi
 
-mapfile -t IMAGE_KERNELS < <(find /usr/lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
+# kernel-devel and kernel-devel-matched are not install-only packages: DNF can
+# have just one version of each in a transaction.  Process retained kernels
+# from oldest to newest so the final image retains headers for its newest
+# (normally booted) kernel.
+mapfile -t IMAGE_KERNELS < <(find /usr/lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -V)
 if [[ "${#IMAGE_KERNELS[@]}" -eq 0 ]]; then
   echo 'Could not locate an image kernel to build MSI EC for.' >&2
   exit 1
@@ -92,8 +96,32 @@ if [[ "${#HEADER_RPMS[@]}" -ne "$(( ${#IMAGE_KERNELS[@]} * 2 ))" ]]; then
   exit 1
 fi
 
-echo 'Installing matching kernel header RPMs...'
-dnf install -y --allowerasing "${HEADER_RPMS[@]}"
+install_headers_for_kernel() {
+  local kernel="$1"
+  local kernel_devel_rpm
+  local kernel_devel_matched_rpm
+
+  if ! kernel_devel_rpm="$(find_header_rpm kernel-devel "$kernel")" || \
+     ! kernel_devel_matched_rpm="$(find_header_rpm kernel-devel-matched "$kernel")"; then
+    echo "Could not locate matching headers for image kernel ${kernel}." >&2
+    exit 1
+  fi
+
+  echo "Installing matching headers for image kernel ${kernel}..."
+  dnf install -y --allowerasing "$kernel_devel_rpm" "$kernel_devel_matched_rpm"
+}
+
+# akmods has a dependency on kernel-devel-matched when kernel-core is present.
+# rpm-ostree resolves that dependency before the build loop below, so first
+# make the headers for the image's RPM-managed kernel available to it.
+mapfile -t RPM_KERNELS < <(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-core | sort -V)
+RUNTIME_KERNEL="${RPM_KERNELS[-1]:-}"
+if [[ -z "$RUNTIME_KERNEL" ]] || [[ ! " ${IMAGE_KERNELS[*]} " == *" ${RUNTIME_KERNEL} "* ]]; then
+  echo 'Could not locate the RPM-managed image kernel needed by akmods.' >&2
+  exit 1
+fi
+
+install_headers_for_kernel "$RUNTIME_KERNEL"
 
 echo 'Installing MSI EC packages...'
 sudo rpm-ostree install "$MSI_EC_COMMON_RPM" "$AKMOD_MSI_EC_RPM"
@@ -123,6 +151,11 @@ chown akmods:akmods "$BUILD_DIR"
 
 echo 'Building the MSI EC module for the image kernel(s)...'
 for kernel in "${IMAGE_KERNELS[@]}"; do
+  # Install exactly one header pair at a time.  A combined transaction for
+  # multiple retained kernels fails because kernel-devel-matched conflicts
+  # with every other version of itself.
+  install_headers_for_kernel "$kernel"
+
   KERNEL_BUILD_DIR="/usr/lib/modules/${kernel}/build"
   if [[ ! -d "$KERNEL_BUILD_DIR" ]]; then
     echo "Matching headers for image kernel ${kernel} are unavailable." >&2
