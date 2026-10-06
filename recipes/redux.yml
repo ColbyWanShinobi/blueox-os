@@ -96,6 +96,7 @@ modules:
       - monitor-edid
       - make
       - mangohud
+      - mangohud.i686
       - mediainfo
       - mtools
       - nautilus-python
