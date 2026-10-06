@@ -156,8 +156,6 @@ modules:
       - shfmt
       - sox
       - sshpass
-      - steam
-      - steam-devices
       - strace
       - sudo
       - syncthing
@@ -216,6 +214,12 @@ modules:
         - terra-mesa-key.asc
       copr:
         - ublue-os/bazzite-multilib
+    # Install Steam with DNF so its x86_64 and i686 dependencies can be
+    # upgraded together instead of being constrained by rpm-ostree layering.
+    install:
+      packages:
+        - steam
+        - steam-devices
     replace:
       - from-repo: copr:copr.fedorainfracloud.org:ublue-os:bazzite-multilib
         packages:
@@ -244,6 +248,7 @@ modules:
       - install-dropbox.sh
       - install-galahad2lcd.sh
       - install-hardinfo2.sh
+      - install-libation.sh
       - install-mcontrolcenter.sh
       - install-msi-ec.sh
       - install-msi-mysticlight.sh
