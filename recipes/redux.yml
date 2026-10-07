@@ -95,7 +95,6 @@ modules:
       - lsof
       - monitor-edid
       - make
-      - mangohud
       - mediainfo
       - mtools
       - nautilus-python
@@ -219,6 +218,7 @@ modules:
     # rpm-ostree layering.
     install:
       packages:
+        - mangohud
         - mangohud.i686
         - steam
         - steam-devices
