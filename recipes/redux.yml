@@ -96,7 +96,6 @@ modules:
       - monitor-edid
       - make
       - mangohud
-      - mangohud.i686
       - mediainfo
       - mtools
       - nautilus-python
@@ -215,10 +214,12 @@ modules:
         - terra-mesa-key.asc
       copr:
         - ublue-os/bazzite-multilib
-    # Install Steam with DNF so its x86_64 and i686 dependencies can be
-    # upgraded together instead of being constrained by rpm-ostree layering.
+    # Install the 32-bit graphics consumers with DNF so their x86_64 and i686
+    # dependencies can be upgraded together instead of being constrained by
+    # rpm-ostree layering.
     install:
       packages:
+        - mangohud.i686
         - steam
         - steam-devices
     replace:
