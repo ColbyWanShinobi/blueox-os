@@ -257,6 +257,7 @@ modules:
       # - install-noson-app.sh
       - install-obsbot-camera-control.sh
       - install-openlogi.sh
+      - install-protonmail-bridge.sh
       # - install-vscode.sh
       - install-vscodium.sh
       - install-winboat.sh
