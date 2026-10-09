@@ -105,6 +105,11 @@ modules:
       - libX11-devel
       - libxcb-devel
       - lsof
+      # Current Lua development toolchain and LuaRocks. Lua 5.1 itself is
+      # built below because Fedora no longer ships a lua5.1 package.
+      - lua
+      - lua-devel
+      - luarocks
       - monitor-edid
       - make
       - magic_enum-devel
@@ -166,6 +171,8 @@ modules:
       - ruby-devel
       - rubygem-bundler
       - ripgrep
+      # Required to compile Lua 5.1 with its readline-enabled Linux target.
+      - readline-devel
       - robin-map-devel
       - rpm-build
       # Rebuilds the vendor Slack RPM without its globally colliding build-ID links.
@@ -286,6 +293,7 @@ modules:
       - install-galahad2lcd.sh
       - install-hardinfo2.sh
       - install-libation.sh
+      - install-lua51.sh
       - install-mcontrolcenter.sh
       - install-msi-ec.sh
       - install-msi-mysticlight.sh
