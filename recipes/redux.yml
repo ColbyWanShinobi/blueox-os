@@ -28,8 +28,13 @@ modules:
       # - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
     install:
       - acpica-tools
+      # P.T. runtime audio support (SDL dynamically loads ALSA/PulseAudio).
+      - alsa-lib
       # Common CLI tools for Codex, Claude Code, and interactive development.
       - bat
+      # Native Bloodborne (bbport) build dependencies.
+      - binutils
+      - boost-devel
       - brave-browser
       # Filesystem creation, checking, and repair tools.
       - btrfs-progs
@@ -40,6 +45,9 @@ modules:
       - cdparanoia
       - cdrdao
       - cmake
+      # Native P.T./Bloodborne Vulkan build prerequisites.
+      - glslc
+      - glslang-devel
       - conda
       - coolercontrol
       - curl
@@ -54,6 +62,8 @@ modules:
       - fd-find
       - fdupes
       - ffmpeg
+      - ffmpeg-devel
+      - fmt-devel
       - flac
       - firefox
       - firefox-langpacks
@@ -92,15 +102,20 @@ modules:
       - libimobiledevice
       - libnotify
       - libportal-gtk3
+      - libX11-devel
+      - libxcb-devel
       - lsof
       - monitor-edid
       - make
+      - magic_enum-devel
       - mediainfo
+      - minizip-ng-compat-devel
       - mtools
       - nautilus-python
       - nethogs
       - nodejs
       - ntfs-3g
+      - ninja-build
       - openssh-server
       - openssl-devel
       - podman-docker
@@ -109,6 +124,7 @@ modules:
       - powertop
       - protontricks
       - pyproject-rpm-macros
+      - python3
       - python3-devel
       - python3-gobject
       - python3-gpg
@@ -116,6 +132,11 @@ modules:
       - python3-setuptools
       - pkgconf-pkg-config
       - pv
+      # PipeWire's PulseAudio-compatible server and SDL's PulseAudio client
+      # library are both required by native P.T. releases.
+      - pipewire
+      - pipewire-alsa
+      - pulseaudio-libs
       - pulseaudio-libs-devel
       - qdirstat
       - qemu-img
@@ -145,6 +166,7 @@ modules:
       - ruby-devel
       - rubygem-bundler
       - ripgrep
+      - robin-map-devel
       - rpm-build
       # Rebuilds the vendor Slack RPM without its globally colliding build-ID links.
       - rpmrebuild
@@ -154,6 +176,9 @@ modules:
       - shellcheck
       - shfmt
       - sox
+      - SDL3-devel
+      - spirv-headers-devel
+      - spirv-tools
       - sshpass
       - strace
       - sudo
@@ -165,14 +190,24 @@ modules:
       - unzip
       - v4l-utils
       - virt-viewer
+      # Vulkan loader for native releases. Mesa's AMD/Intel drivers are
+      # replaced below; NVIDIA images must provide their proprietary driver.
+      - vulkan-headers
+      - vulkan-loader
+      - VulkanMemoryAllocator-devel
       - vkBasalt
       - wol
       - wayland-utils
+      - wayland-devel
       - wine
       - winetricks
       - wtype
       - xorriso
+      - xbyak-devel
+      - xorg-x11-proto-devel
+      - xxhash-devel
       - yq
+      - zydis-devel
       - zenity
       - zip
       - zoxide
