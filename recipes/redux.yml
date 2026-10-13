@@ -30,6 +30,7 @@ modules:
       - acpica-tools
       # P.T. runtime audio support (SDL dynamically loads ALSA/PulseAudio).
       - alsa-lib
+      - alsa-lib-devel
       # Common CLI tools for Codex, Claude Code, and interactive development.
       - bat
       # Native Bloodborne (bbport) build dependencies.
