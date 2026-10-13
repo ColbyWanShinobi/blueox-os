@@ -76,3 +76,5 @@ gsettings set org.gnome.shell always-show-log-out true
 
 # App not responding timeout. Default ws 15 secs (15000)
 gsettings set org.gnome.mutter check-alive-timeout 60000
+
+dconf write /org/gnome/shell/extensions/tiling-assistant/enable-layout-picker false
