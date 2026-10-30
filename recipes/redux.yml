@@ -42,46 +42,48 @@ modules:
       - cabextract
       - cairo
       - cairo-devel
+      - calibre
       - cargo
       - cdparanoia
       - cdrdao
       - cmake
-      # Native P.T./Bloodborne Vulkan build prerequisites.
-      - glslc
-      - glslang-devel
       - conda
       - coolercontrol
       - curl
-      - ddcutil
       - dbus-devel
+      - ddcutil
       - dosfstools
       - edid-decode
       - edk2-ovmf
-      - eza
       - exfatprogs
+      - eza
       - faugus-launcher
       - fd-find
       - fdupes
       - ffmpeg
       - ffmpeg-devel
-      - fmt-devel
-      - flac
       - firefox
       - firefox-langpacks
+      - flac
       - flac-devel
+      - fmt-devel
       - freerdp
       - fuse-libs
       - fzf
       - gcc
       - gcc-c++
+      - gh
       - git
       - git-delta
       - glib2
-      - gh
+      # Native P.T./Bloodborne Vulkan build prerequisites.
+      - glslang-devel
+      - glslc
       - gnome-tweaks
       - gparted
       - gtkpod
       - gvfs
+      - gvfs-mtp
       - hipblas-devel
       - hplip-common
       - hplip-gui
@@ -99,8 +101,10 @@ modules:
       - libcdio-devel
       - libdiscid
       - libdiscid-devel
-      - libmediainfo
       - libimobiledevice
+      - libmediainfo
+      - libmtp
+      - libmtp-examples
       - libnotify
       - libportal-gtk3
       - libX11-devel
@@ -111,24 +115,31 @@ modules:
       - lua
       - lua-devel
       - luarocks
-      - monitor-edid
-      - make
       - magic_enum-devel
+      - make
       - mediainfo
       - minizip-ng-compat-devel
+      - monitor-edid
       - mtools
       - nautilus-python
       - nethogs
-      - nodejs
-      - ntfs-3g
       - ninja-build
+      - ntfs-3g
       - openssh-server
       - openssl-devel
-      - podman-docker
+      # PipeWire's PulseAudio-compatible server and SDL's PulseAudio client
+      # library are both required by native P.T. releases.
+      - pipewire
+      - pipewire-alsa
+      - pkgconf-pkg-config
       - podman-compose
+      - podman-docker
       - policycoreutils
       - powertop
       - protontricks
+      - pulseaudio-libs
+      - pulseaudio-libs-devel
+      - pv
       - pyproject-rpm-macros
       - python3
       - python3-devel
@@ -136,23 +147,9 @@ modules:
       - python3-gpg
       - python3-pymediainfo
       - python3-setuptools
-      - pkgconf-pkg-config
-      - pv
-      # PipeWire's PulseAudio-compatible server and SDL's PulseAudio client
-      # library are both required by native P.T. releases.
-      - pipewire
-      - pipewire-alsa
-      - pulseaudio-libs
-      - pulseaudio-libs-devel
       - qdirstat
       - qemu-img
       - qemu-system-x86
-      - qt6-qtbase
-      - qt6-qtbase-common
-      - qt6-qtbase-gui
-      - qt6-qtbase-devel
-      - qt6-qtmultimedia
-      - qt6-qtmultimedia-devel
       - qt5-qtbase-devel
       - qt5-qtdeclarative-devel
       - qt5-qtgraphicaleffects
@@ -160,31 +157,37 @@ modules:
       - qt5-qtsvg
       - qt5-qtsvg-devel
       - qt5-qttools-devel
+      - qt6-qtbase
+      - qt6-qtbase-common
+      - qt6-qtbase-devel
+      - qt6-qtbase-gui
+      - qt6-qtmultimedia
+      - qt6-qtmultimedia-devel
+      # Required to compile Lua 5.1 with its readline-enabled Linux target.
+      - readline-devel
+      - ripgrep
+      - robin-map-devel
       - rocblas-devel
       - rocm-hip
       - rocm-hip-devel
       - rocm-opencl
       - rocm-smi
       - rocminfo
-      - rust
-      - rustfmt
-      - ruby
-      - ruby-devel
-      - rubygem-bundler
-      - ripgrep
-      # Required to compile Lua 5.1 with its readline-enabled Linux target.
-      - readline-devel
-      - robin-map-devel
       - rpm-build
       # Rebuilds the vendor Slack RPM without its globally colliding build-ID links.
       - rpmrebuild
       - rsync
+      - ruby
+      - ruby-devel
+      - rubygem-bundler
+      - rust
+      - rustfmt
       - samba
       - sayonara
+      - SDL3-devel
       - shellcheck
       - shfmt
       - sox
-      - SDL3-devel
       - spirv-headers-devel
       - spirv-tools
       - sshpass
@@ -198,28 +201,27 @@ modules:
       - unzip
       - v4l-utils
       - virt-viewer
+      - vkBasalt
       # Vulkan loader for native releases. Mesa's AMD/Intel drivers are
       # replaced below; NVIDIA images must provide their proprietary driver.
       - vulkan-headers
       - vulkan-loader
       - VulkanMemoryAllocator-devel
-      - vkBasalt
-      - wol
-      - wayland-utils
       - wayland-devel
+      - wayland-utils
       - wine
       - winetricks
+      - wol
       - wtype
-      - xorriso
       - xbyak-devel
       - xorg-x11-proto-devel
+      - xorriso
       - xxhash-devel
       - yq
-      - zydis-devel
       - zenity
-      - zip
-      - zoxide
       - zlib-devel
+      - zoxide
+      - zydis-devel
 
   # Proton distributes its Fedora repository as a release RPM. Keep this URL
   # in sync with image-version above when rebasing to another Fedora release.
